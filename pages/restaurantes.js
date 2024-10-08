@@ -34,6 +34,7 @@ export default function Restaurantes() {
             <p className={styles.cardText}><strong>Categoría:</strong> {restaurante.categoria}</p>
             <p className={styles.cardText}><strong>Correo:</strong> {restaurante.correo}</p>
             <p className={styles.cardText}><strong>Localidad:</strong> {restaurante.localidad}</p>
+            <p className={styles.cardText}><strong>Ubicación:</strong> {restaurante.ubicacion}</p>
           </div>
         ))}
       </div>

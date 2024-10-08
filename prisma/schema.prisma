@@ -63,6 +63,7 @@ model restaurante {
   categoria                                  String?     @db.VarChar(50)
   correo                                     String?     @db.VarChar(100)
   localidad                                  String      @db.VarChar(100)
+  ubicacion                                  String?     @db.VarChar(100)
   productos                                  productos[]
   localidad_restaurante_localidadTolocalidad localidad   @relation("restaurante_localidadTolocalidad", fields: [localidad], references: [ciudad], onDelete: NoAction, onUpdate: NoAction)
 
