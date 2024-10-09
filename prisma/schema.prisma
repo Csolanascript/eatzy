@@ -31,6 +31,12 @@ model contiene {
   @@id([id, nombre_producto, nombre_restaurante, localidad])
 }
 
+model localidad {
+  ciudad                                       String        @id @db.VarChar(100)
+  cliente_cliente_localidadTolocalidad         cliente[]     @relation("cliente_localidadTolocalidad")
+  restaurante_restaurante_localidadTolocalidad restaurante[] @relation("restaurante_localidadTolocalidad")
+}
+
 model pedido {
   id           Int        @id
   fecha        DateTime?  @db.Date
@@ -77,12 +83,6 @@ model usuario {
   tipo           tipo_usuario
   cliente        cliente?
   propietario    propietario?
-}
-
-model localidad {
-  ciudad                                       String        @id @db.VarChar(100)
-  cliente_cliente_localidadTolocalidad         cliente[]     @relation("cliente_localidadTolocalidad")
-  restaurante_restaurante_localidadTolocalidad restaurante[] @relation("restaurante_localidadTolocalidad")
 }
 
 enum tipo_usuario {
