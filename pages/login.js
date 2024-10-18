@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../styles/Login.module.css';
+import Cookies from 'js-cookie';  // Importamos js-cookie para manejar cookies
 
 export default function LoginComponent() {
-  const [correo, setCorreo] = useState(''); // Estado para almacenar el correo
-  const [contrasena, setContrasena] = useState(''); // Estado para almacenar la contraseña
-  const [error, setError] = useState(''); // Estado para errores
-  const router = useRouter(); // Utilizamos el router para redirigir después del login
+  const [correo, setCorreo] = useState('');
+  const [contrasena, setContrasena] = useState('');
+  const [error, setError] = useState('');
+  const router = useRouter();
 
   // Función que maneja el envío del formulario
   const handleLogin = async (e) => {
@@ -15,17 +16,26 @@ export default function LoginComponent() {
     // Realizar la solicitud a la API de login
     const res = await fetch('/api/login', {
       method: 'POST', 
-      headers: { 'Content-Type': 'application/json' }, // Enviamos los datos como JSON
-      body: JSON.stringify({ correo, contrasena }), // Datos enviados en el body
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ correo, contrasena }),
     });
-
-    const data = await res.json(); // Convertir la respuesta en JSON
-
+  
+    const data = await res.json();
+  
+    // Agrega logs para depurar la respuesta
+    console.log('Respuesta de la API:', data);
+    console.log('Código de estado:', res.status);
+  
     if (res.ok) {
-      // Si la autenticación es exitosa, redirigir según el tipo de usuario
+      // Si la autenticación es exitosa, guardar el token en la cookie
+      Cookies.set('auth-token', data.token, { expires: 1 });
+  
+      // Redirigir según el tipo de usuario
       if (data.tipo === 'Cliente') {
+        console.log('Redirigiendo a /main-feed');
         router.push('/main-feed');  // Redirigir a main-feed para Clientes
       } else if (data.tipo === 'Propietario') {
+        console.log('Redirigiendo a /main-feed-propietario');
         router.push('/main-feed-propietario');  // Redirigir a main-feed-propietario para Propietarios
       }
     } else {
