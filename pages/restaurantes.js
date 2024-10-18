@@ -25,7 +25,7 @@ export default function Restaurantes() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Lista de Restaurantes</h1>
+      efine y exporta el componente funciona<h1 className={styles.title}>Lista de Restaurantes</h1>
       <div className={styles.grid}>
         {restaurantes.map((restaurante) => (
           <div key={restaurante.nombre_restaurante} className={styles.card}>

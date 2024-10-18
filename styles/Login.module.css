@@ -1,46 +1,106 @@
-/* Estilos simples para la página de inicio de sesión */
+/* Contenedor principal centrado */
+.pagina{
+  background-color: blanchedalmond;
+}
+
 .container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .title {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .inputGroup {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .input {
-    padding: 10px;
-    width: 100%;
-    font-size: 16px;
-  }
-  
-  .button {
-    padding: 10px;
-    font-size: 16px;
-    background-color: #0070f3;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .error {
-    color: red;
-    margin-bottom: 20px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh;
+  padding-top: 60px;
+}
+
+.header {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 50px;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Contenedor del formulario */
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: center;
+  width: 400px;
+  border: 1px solid black;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  padding-left: 3%;
+  padding-right: 3%;
+  border-radius: 20px;
+}
+
+.formContainer h1 {
+  font-size: 35px;
+}
+
+.formContainer label {
+  font-size: 22px;
+}
+
+/* Grupo de inputs, cada campo con su label */
+.inputGroup {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+/* Estilo para los campos de entrada */
+.inputField {
+  width: 100%;
+  font-size: 15px;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  box-sizing: border-box;
+}
+
+/* Botón de Iniciar Sesión */
+.loginButton {
+  margin-top: 10px;
+  height: 55px;
+  width: 100%;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgb(52, 52, 245);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* Efecto hover: Cambiar color de fondo y añadir sombra */
+.loginButton:hover {
+  background-color: rgb(17, 17, 141);
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
+/* Contenedor para los enlaces */
+.linksContainer {
+  width: 100%;
+  margin-top: 20px;
+  text-align: center;
+  border-top: 1px solid gray;
+  padding-top: 10px;
+}
+
+/* Margen entre los párrafos de los enlaces */
+.linksContainer p {
+  margin: 5px 0;
+  color: blue;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  margin-bottom: 20px;
+}
