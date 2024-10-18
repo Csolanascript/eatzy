@@ -1,5 +1,6 @@
 /* Contenedor principal centrado */
 .pagina{
+  height: 100vh;
   background-color: blanchedalmond;
 }
 
@@ -8,21 +9,20 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  min-height: 100vh;
-  padding-top: 60px;
+  padding-top: 10px;
 }
 
-.header {
-  text-align: center;
-  margin-top: 10px;
+.imageContainer {
+  width: auto;
+  height: auto;
+  margin-top:20px;
   margin-bottom: 10px;
-  font-size: 50px;
-  font-weight: bold;
-  margin: 0;
+  padding: 0;
 }
 
 /* Contenedor del formulario */
 .formContainer {
+  margin-top: 0px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -31,8 +31,8 @@
   border: 1px solid black;
   padding-top: 1%;
   padding-bottom: 1%;
-  padding-left: 3%;
-  padding-right: 3%;
+  padding-left: 5%;
+  padding-right: 5%;
   border-radius: 20px;
 }
 

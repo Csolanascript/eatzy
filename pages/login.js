@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../styles/Login.module.css';
 import Cookies from 'js-cookie';  // Importamos js-cookie para manejar cookies
+import Image from 'next/image';
 
 export default function LoginComponent() {
   const [correo, setCorreo] = useState('');
@@ -59,8 +60,13 @@ export default function LoginComponent() {
   return (
     <div className={styles.pagina}>
       <div className={styles.container}>
-        <div className={styles.header}>
-          <h1>EATZY (imagen)</h1>
+        <div className={styles.imageContainer}>
+          <Image 
+            src="/images/imagen.png"
+            alt="Banner de Eatzy"
+            width={500}
+            height={360}
+          />
         </div>
         <div className={styles.formContainer}>
           <h1>Iniciar Sesión</h1>
