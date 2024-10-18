@@ -3,19 +3,24 @@ import prisma from '../../prisma';  // Importar la instancia de Prisma desde pri
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
-      const { propietarioCorreo, searchQuery, ubicacion } = req.query;
+      const { propietarioCorreo, searchQuery, localidad } = req.query;  // Obtener correctamente 'localidad'
 
-      console.log('Propietario Correo:', propietarioCorreo);  // Para verificar el correo del propietario
+      console.log('Propietario Correo:', propietarioCorreo);  // Verificar el correo
+      console.log('Localidad:', localidad);  // Verificar la localidad
 
       // 1. Obtener restaurantes de un propietario específico por correo
       if (propietarioCorreo) {
         const restaurantes = await prisma.restaurante.findMany({
           where: {
-            correo: propietarioCorreo, // Filtrar por correo del propietario
+            correo: propietarioCorreo || undefined, // Filtrar por correo del propietario si existe
           },
         });
 
         console.log('Restaurantes obtenidos:', restaurantes);  // Verificar los datos obtenidos
+
+        if (restaurantes.length === 0) {
+          return res.status(404).json({ error: 'No se encontraron restaurantes para el propietario dado' });
+        }
 
         return res.status(200).json(restaurantes);
       }
@@ -30,24 +35,35 @@ export default async function handler(req, res) {
             },
           },
         });
+
+        if (restaurantes.length === 0) {
+          return res.status(404).json({ error: 'No se encontraron restaurantes que coincidan con la búsqueda' });
+        }
+
         return res.status(200).json(restaurantes);
       }
 
-      // 3. Filtrar restaurantes por ubicación
-      if (ubicacion) {
+      // 3. Filtrar restaurantes por ubicación (localidad)
+      if (localidad) {
         const restaurantes = await prisma.restaurante.findMany({
           where: {
-            ubicacion: {
-              equals: ubicacion,  // Comparar ubicación exacta
+            localidad: {
+              equals: localidad,  // Comparar ubicación exacta
             },
           },
         });
+
+        if (restaurantes.length === 0) {
+          return res.status(404).json({ error: 'No se encontraron restaurantes en la localidad dada' });
+        }
+
         return res.status(200).json(restaurantes);
       }
 
       // Si no se proporcionan filtros, obtener todos los restaurantes
       const restaurantes = await prisma.restaurante.findMany();
       return res.status(200).json(restaurantes);
+
     } catch (error) {
       console.error('Error al obtener los restaurantes:', error);
       return res.status(500).json({ error: 'Error al obtener los restaurantes' });

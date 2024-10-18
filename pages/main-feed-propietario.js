@@ -1,16 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../styles/Main-feed.module.css'; 
 import { useRouter } from 'next/router';  // Importa useRouter desde next/router
-import jwt from 'jsonwebtoken';  
-import { PrismaClient } from '@prisma/client';  // Importar Prisma
+import jwt from 'jsonwebtoken';
 
-const prisma = new PrismaClient();
-
-export default function MainFeed({ restaurantes = [] }) {
+export default function MainFeed({ propietarioCorreo }) {
   const router = useRouter();
+  const [restaurantes, setRestaurantes] = useState([]);
 
-  // Verificar si los datos están llegando correctamente
-  console.log('Restaurantes recibidos en el frontend:', restaurantes);
+  useEffect(() => {
+    // Si no hay correo, redirigimos al login
+    if (!propietarioCorreo) {
+      router.push('/login');
+      return;
+    }
+
+    // Hacemos una solicitud a la API para obtener los restaurantes
+    const fetchRestaurantes = async () => {
+      try {
+        const response = await fetch(`/api/restaurantes?propietarioCorreo=${propietarioCorreo}`);
+        const data = await response.json();
+        setRestaurantes(data);
+      } catch (error) {
+        console.error('Error al obtener los restaurantes:', error);
+      }
+    };
+
+    fetchRestaurantes();
+  }, [propietarioCorreo, router]);
 
   const handleRestaurantClick = (restauranteId) => {
     router.push(`/restaurante/${restauranteId}`);
@@ -45,7 +61,7 @@ export default function MainFeed({ restaurantes = [] }) {
   );
 }
 
-
+// getServerSideProps para proteger la página
 export async function getServerSideProps(context) {
   const { req } = context;
   const token = req.cookies['auth-token'];  // Obtener el token de las cookies
@@ -63,22 +79,13 @@ export async function getServerSideProps(context) {
   try {
     // Verificar el token y obtener el correo del propietario
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const propietarioCorreo = decoded.correo;  // Usar el correo en lugar de userId
-
-    console.log('Correo decodificado:', propietarioCorreo);  // Verifica que el correo sea correcto
-
-    // Obtener restaurantes del propietario desde Prisma usando el correo
-    const restaurantes = await prisma.restaurante.findMany({
-      where: { correo: propietarioCorreo },
-    });
-
-    console.log('Restaurantes obtenidos:', restaurantes);  // Verificar que los restaurantes son correctos
+    const propietarioCorreo = decoded.correo;  // Usar el correo del token
 
     return {
-      props: { restaurantes },  // Pasar los restaurantes como props
+      props: { propietarioCorreo },  // Pasar el correo como prop
     };
   } catch (error) {
-    console.error('Error al obtener los restaurantes:', error);
+    console.error('Error al verificar el token:', error);
     return {
       redirect: {
         destination: '/login',
