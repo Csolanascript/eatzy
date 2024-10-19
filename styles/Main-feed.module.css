@@ -1,82 +1,151 @@
-/* Estilos generales para centrar y distribuir contenido */
+/* Main-feed.module.css */
+
 .container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
+  background-color: blanchedalmond;
   height: 100vh;
-  background-color: #f7f7f7; /* Color de fondo claro */
+}
+
+/* Botón para togglear el menú lateral */
+.toggleButton {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: #fff;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+/* Menú lateral */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px; /* Oculto por defecto */
+  width: 250px;
+  height: 100%;
+  background-color: #333;
+  color: #fff;
+  transition: left 0.3s ease;
+  z-index: 1000;
+  padding-top: 60px; /* Espacio para el botón */
+}
+
+.sidebar.open {
+  left: 0; /* Visible cuando está abierto */
+}
+
+.sidebar nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar nav ul li {
+  padding: 15px 20px;
+  cursor: pointer;
+}
+
+.sidebar nav ul li:hover {
+  background-color: #444;
+}
+
+
+.userBox {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #fff;
+  color: #333;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 1001;
+}
+
+.userIcon {
+  font-size: 24px;
+  margin-right: 8px;
+}
+
+.userName {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Contenido principal */
+.mainContent {
+  flex: 1;
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
   padding: 20px;
 }
 
-/* Cabecera del título y subtítulo */
+.sidebar.open ~ .mainContent {
+  margin-left: 250px; /* Desplaza el contenido cuando el menú está abierto */
+}
+
+/* Contenido principal */
+.mainContent {
+  flex: 1;
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+  padding: 20px;
+}
+
+.sidebar.open ~ .mainContent {
+  margin-left: 250px; /* Desplaza el contenido cuando el menú está abierto */
+}
+
+/* Resto de tus estilos existentes */
+
 .header {
   text-align: center;
-  margin-bottom: 30px;
-}
-
-.title {
-  font-size: 3rem;
-  font-weight: bold;
-  color: #333;
-  letter-spacing: 1.5px;
-  margin-bottom: 10px;
-}
-
-.subtitle {
-  font-size: 1.2rem;
-  color: #777;
-}
-
-/* Contenedor principal del contenido */
-.content {
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 30px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 800px;
-}
-
-.restaurantsTitle {
-  font-size: 1.8rem;
-  font-weight: 500;
-  color: #444;
   margin-bottom: 20px;
 }
 
-/* Lista de restaurantes */
-.restaurantsList {
-  list-style-type: none;
-  padding: 0;
+.title {
+  font-size: 48px;
   margin: 0;
 }
 
-/* Cada ítem de restaurante */
+.subtitle {
+  font-size: 18px;
+  color: #555;
+}
+
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.restaurantsTitle {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.error {
+  color: red;
+}
+
+.restaurantsList {
+  list-style-type: none;
+  padding: 0;
+}
+
 .restaurantItem {
-  background-color: #f0f0f0;
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  transition: all 0.3s ease;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
   cursor: pointer;
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: #333;
-  text-align: left;
 }
 
 .restaurantItem:hover {
-  background-color: #e0e0e0;
-  border-color: #ccc;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f0f0f0;
 }
 
-/* Mensaje cuando no hay restaurantes */
 .noRestaurants {
-  font-size: 1.2rem;
+  font-size: 18px;
   color: #777;
-  text-align: center;
-  padding: 20px;
 }
