@@ -10,11 +10,8 @@ export default function LoginComponent() {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  // Función que maneja el envío del formulario
   const handleLogin = async (e) => {
-    e.preventDefault(); // Prevenir el comportamiento por defecto (recarga de página)
-    
-    // Realizar la solicitud a la API de login
+    e.preventDefault();
     const res = await fetch('/api/login', {
       method: 'POST', 
       headers: { 'Content-Type': 'application/json' },
@@ -22,27 +19,18 @@ export default function LoginComponent() {
     });
   
     const data = await res.json();
-  
-    // Agrega logs para depurar la respuesta
-    console.log('Respuesta de la API:', data);
-    console.log('Código de estado:', res.status);
-  
     if (res.ok) {
-      // Si la autenticación es exitosa, guardar el token en la cookie
       Cookies.set('auth-token', data.token, { expires: 1 });
-  
-      // Redirigir según el tipo de usuario
       if (data.tipo === 'Cliente') {
-        console.log('Redirigiendo a /main-feed');
-        router.push('/main-feed');  // Redirigir a main-feed para Clientes
+        router.push('/main-feed');
       } else if (data.tipo === 'Propietario') {
-        console.log('Redirigiendo a /main-feed-propietario');
-        router.push('/main-feed-propietario');  // Redirigir a main-feed-propietario para Propietarios
+        router.push('/main-feed-propietario');
       }
     } else {
-      // Si hay error, mostrar el mensaje de error
       setError(data.message);
     }
+
+    
   };
 
   //Funcion para llevarte a registro
@@ -59,60 +47,62 @@ export default function LoginComponent() {
 
   return (
     <div className={styles.pagina}>
+      {/* Video de fondo */}
+      <video autoPlay loop muted className={styles.videoBackground}>
+        <source src="/video/fondo.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      {/* Contenido de la página */}
+      <div className={styles.imageContainer}>
+        <Image 
+          src="/images/imagen.png"
+          alt="Banner de Eatzy"
+          width={500}
+          height={360}
+        />
+      </div>
+
       <div className={styles.container}>
-        <div className={styles.imageContainer}>
-          <Image 
-            src="/images/imagen.png"
-            alt="Banner de Eatzy"
-            width={500}
-            height={360}
-          />
-        </div>
         <div className={styles.formContainer}>
           <h1>Iniciar Sesión</h1>
-
-          {/* Mostrar mensaje de error si lo hay */}
           {error && <p className={styles.error}>{error}</p>}
     
-        <form onSubmit={handleLogin}>
-          <div className={styles.inputGroup}>
-            <label htmlFor="correo">Correo</label>
-            <input 
-              type="email" 
-              id="correo" 
-              name="correo" 
-              value={correo}
-              onChange={(e) => setCorreo(e.target.value)}
-              required
-              className={styles.inputField} 
-            />
-          </div>
+          <form onSubmit={handleLogin}>
+            <div className={styles.inputGroup}>
+              <label htmlFor="correo">Correo</label>
+              <input 
+                type="email" 
+                id="correo" 
+                value={correo}
+                onChange={(e) => setCorreo(e.target.value)}
+                required
+                className={styles.inputField} 
+              />
+            </div>
 
-          <div className={styles.inputGroup}>
-            <label htmlFor="contrasena">Contraseña</label>
-            <input 
-              type="password" 
-              id="contrasena" 
-              name="contrasena"
-              alue={contrasena}
-              onChange={(e) => setContrasena(e.target.value)}
-              required
-              className={styles.inputField} 
-            />
-          </div>
+            <div className={styles.inputGroup}>
+              <label htmlFor="contrasena">Contraseña</label>
+              <input 
+                type="password" 
+                id="contrasena" 
+                value={contrasena}
+                onChange={(e) => setContrasena(e.target.value)}
+                required
+                className={styles.inputField} 
+              />
+            </div>
 
-          <button type="submit" className={styles.loginButton}>
-            Iniciar Sesión
-          </button>
-        </form>
-
+            <button type="submit" className={styles.loginButton}>
+              Iniciar Sesión
+            </button>
+          </form>
           <div className={styles.linksContainer}>
-            <p onClick={handleRegistro}>Registrarse</p>
-            <p onClick={handleRecuperar}>He olvidado mi contraseña</p>
+            <button onClick={handleRegistro} className={styles.linkButtonSmall}>Registrarse</button>
+            <button onClick={handleRecuperar} className={styles.linkButtonSmall}>He olvidado mi contraseña</button>
           </div>
         </div>
       </div>
     </div>
   );
-
 }
