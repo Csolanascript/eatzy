@@ -1,0 +1,64 @@
+/* Estilos generales para la página */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .error {
+    color: red;
+    font-size: 18px;
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .noProducts {
+    font-size: 18px;
+    text-align: center;
+    color: #777;
+    margin-top: 20px;
+  }
+  
+  /* Lista de productos */
+  .productList {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .productItem {
+    background-color: #fff;
+    padding: 15px 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .productItem:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .productName {
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .productPrice {
+    font-size: 18px;
+    color: #28a745;
+    font-weight: bold;
+  }
+  

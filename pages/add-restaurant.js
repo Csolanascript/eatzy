@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../styles/Main-feed.module.css'; 
 import jwt from 'jsonwebtoken';
-import { FaUserCircle, FaClipboardList } from 'react-icons/fa'; // Asegúrate de tener react-icons instalado
+import { FaUserCircle } from 'react-icons/fa'; // Asegúrate de tener react-icons instalado
 
 export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }) {
   const [restaurantes, setRestaurantes] = useState([]);
@@ -31,15 +31,10 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
     }
   }, [propietarioCorreo]);
 
-  const handleRestaurantClick = (restauranteNombre, restauranteLocalidad) => {
-    router.push(`/restaurante/${encodeURIComponent(restauranteNombre)}/${encodeURIComponent(restauranteLocalidad)}/carta`);
+  const handleRestaurantClick = (restauranteNombre) => {
+    router.push(`/${restauranteNombre}/carta`);  // Redirige a la página de gestionar la carta
   };
-  
 
-  const handleCartaClick = (restauranteNombre, restauranteLocalidad) => {
-    router.push(`/restaurante/${encodeURIComponent(restauranteNombre)}/${encodeURIComponent(restauranteLocalidad)}/carta`);
-  };
-  
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -47,10 +42,6 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
   const handleNavigation = (path) => {
     router.push(path);
     setIsSidebarOpen(false); // Cerrar el menú al navegar
-  };
-
-  const handleAddRestaurant = () => {
-    router.push('/add-restaurant'); // Redirige a la página de agregar restaurante
   };
 
   return (
@@ -93,27 +84,15 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
                 <li 
                   key={restaurante.nombre} 
                   className={styles.restaurantItem}
+                  onClick={() => handleRestaurantClick(restaurante.nombre)} // Redirigir al hacer clic en el restaurante
                 >
-                  <span onClick={() => handleRestaurantClick(restaurante.nombre, restaurante.localidad)}>
-                    {restaurante.nombre} - {restaurante.localidad}
-                  </span>
-
-                  {/* Icono para gestionar la carta */}
-                  <FaClipboardList 
-                    className={styles.iconCarta} 
-                    onClick={() => handleCartaClick(restaurante.nombre)}
-                  />
+                  {restaurante.nombre} - {restaurante.localidad}
                 </li>
               ))}
             </ul>
           ) : (
             <p className={styles.noRestaurants}>No tienes restaurantes registrados.</p>
           )}
-
-          {/* Botón para añadir nuevo restaurante */}
-          <button className={styles.addButton} onClick={handleAddRestaurant}>
-            Añadir Restaurante
-          </button>
         </div>
       </div>
     </div>
