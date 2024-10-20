@@ -32,11 +32,12 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
   }, [propietarioCorreo]);
 
   const handleRestaurantClick = (restauranteNombre, restauranteLocalidad) => {
+    // Asegúrate de pasar tanto el nombre como la localidad
     router.push(`/restaurante/${encodeURIComponent(restauranteNombre)}/${encodeURIComponent(restauranteLocalidad)}/carta`);
   };
   
-
   const handleCartaClick = (restauranteNombre, restauranteLocalidad) => {
+    // Aquí también aseguramos pasar ambos valores
     router.push(`/restaurante/${encodeURIComponent(restauranteNombre)}/${encodeURIComponent(restauranteLocalidad)}/carta`);
   };
   
@@ -94,6 +95,7 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
                   key={restaurante.nombre} 
                   className={styles.restaurantItem}
                 >
+                  {/* Aseguramos que se pasa el nombre y la localidad al hacer clic */}
                   <span onClick={() => handleRestaurantClick(restaurante.nombre, restaurante.localidad)}>
                     {restaurante.nombre} - {restaurante.localidad}
                   </span>
@@ -101,7 +103,7 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
                   {/* Icono para gestionar la carta */}
                   <FaClipboardList 
                     className={styles.iconCarta} 
-                    onClick={() => handleCartaClick(restaurante.nombre)}
+                    onClick={() => handleCartaClick(restaurante.nombre, restaurante.localidad)}
                   />
                 </li>
               ))}

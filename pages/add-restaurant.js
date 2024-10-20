@@ -1,100 +1,73 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import styles from '../styles/Main-feed.module.css'; 
-import jwt from 'jsonwebtoken';
-import { FaUserCircle } from 'react-icons/fa'; // Asegúrate de tener react-icons instalado
-
-export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }) {
-  const [restaurantes, setRestaurantes] = useState([]);
+import styles from '../styles/Add-restaurant.module.css'; // Crear un archivo CSS separado
+import jwt from 'jsonwebtoken'; 
+export default function AddRestaurant({ propietarioCorreo }) {  // Recibe propietarioCorreo como prop
+  const [nombre, setNombre] = useState('');
+  const [localidad, setLocalidad] = useState('');
   const [error, setError] = useState(null);
   const router = useRouter();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  useEffect(() => {
-    const fetchRestaurantes = async () => {
-      try {
-        const response = await fetch(`/api/restaurantes?propietarioCorreo=${encodeURIComponent(propietarioCorreo)}`);
-        const data = await response.json();
-        
-        if (response.ok) {
-          setRestaurantes(data);
-        } else {
-          setError(data.error || 'Error al obtener los restaurantes');
-        }
-      } catch (error) {
-        setError('Error al obtener los restaurantes');
-      }
-    };
-
-    if (propietarioCorreo) {
-      fetchRestaurantes();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    // Validación simple
+    if (!nombre || !localidad) {
+      setError('Todos los campos son obligatorios');
+      return;
     }
-  }, [propietarioCorreo]);
-
-  const handleRestaurantClick = (restauranteNombre) => {
-    router.push(`/${restauranteNombre}/carta`);  // Redirige a la página de gestionar la carta
+  
+    try {
+      const response = await fetch('/api/add-restaurantes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          nombre, 
+          localidad, 
+          propietarioCorreo  // Usa el valor real pasado como prop
+        }),
+      });
+  
+      if (response.ok) {
+        router.push('/main-feed-propietario'); // Redirigir al feed de restaurantes después de agregar
+      } else {
+        const errorData = await response.json();
+        setError(errorData.error || 'Error al añadir restaurante');
+      }
+    } catch (error) {
+      setError('Error al añadir restaurante');
+    }
   };
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  const handleNavigation = (path) => {
-    router.push(path);
-    setIsSidebarOpen(false); // Cerrar el menú al navegar
-  };
-
+  
   return (
     <div className={styles.container}>
-      {/* Botón para togglear el menú lateral */}
-      <button className={styles.toggleButton} onClick={toggleSidebar}>
-        ☰
-      </button>
-
-      {/* Menú lateral */}
-      <aside className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ''}`}>
-        <nav>
-          <ul>
-            <li onClick={() => handleNavigation('/perfil')}>Perfil</li>
-            <li onClick={() => handleNavigation('/configuracion')}>Configuración</li>
-            <li onClick={() => handleNavigation('/cerrar-sesion')}>Cerrar Sesión</li>
-          </ul>
-        </nav>
-      </aside>
-
-      {/* Recuadrito de Usuario */}
-      <div className={styles.userBox}>
-        <FaUserCircle className={styles.userIcon} />
-        <span className={styles.userName}>{nombreUsuario}</span>
-      </div>
-
-      <div className={styles.mainContent}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>EATZY</h1>
-          <p className={styles.subtitle}>¡Has iniciado sesión correctamente!</p>
+      <h1 className={styles.title}>Añadir Restaurante</h1>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <div className={styles.formGroup}>
+          <label htmlFor="nombre">Nombre del Restaurante</label>
+          <input
+            type="text"
+            id="nombre"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+          />
         </div>
-
-        <div className={styles.content}>
-          <h2 className={styles.restaurantsTitle}>Mis Restaurantes</h2>
-          {error ? (
-            <p className={styles.error}>{error}</p>
-          ) : restaurantes.length > 0 ? (
-            <ul className={styles.restaurantsList}>
-              {restaurantes.map((restaurante) => (
-                <li 
-                  key={restaurante.nombre} 
-                  className={styles.restaurantItem}
-                  onClick={() => handleRestaurantClick(restaurante.nombre)} // Redirigir al hacer clic en el restaurante
-                >
-                  {restaurante.nombre} - {restaurante.localidad}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className={styles.noRestaurants}>No tienes restaurantes registrados.</p>
-          )}
+        <div className={styles.formGroup}>
+          <label htmlFor="localidad">Localidad</label>
+          <input
+            type="text"
+            id="localidad"
+            value={localidad}
+            onChange={(e) => setLocalidad(e.target.value)}
+          />
         </div>
-      </div>
+        {error && <p className={styles.error}>{error}</p>}
+        <button type="submit" className={styles.submitButton}>
+          Añadir Restaurante
+        </button>
+      </form>
     </div>
   );
 }
