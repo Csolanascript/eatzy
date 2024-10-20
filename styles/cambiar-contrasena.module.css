@@ -1,0 +1,185 @@
+/* /styles/CambiarContrasena.module.css */
+
+/* .pagina: Contenedor principal de la página */
+.pagina {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column; /* Disposición vertical */
+  align-items: center;    /* Centrar horizontalmente */
+  justify-content: center; /* Centrar verticalmente */
+  padding: 20px;          /* Espaciado interno */
+  box-sizing: border-box; /* Incluye el padding en el tamaño total */
+}
+
+/* .videoBackground: Video de fondo de la página */
+.videoBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+/* .imageContainer: Contenedor para la imagen, centrado y con margen */
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px; /* Espacio entre la imagen y el formulario */
+  width: 100%;          /* Asegura que ocupe todo el ancho disponible */
+  max-width: 500px;     /* Limita el ancho máximo para evitar solapamientos */
+  box-sizing: border-box; /* Incluye el padding en el tamaño total */
+}
+
+/* .imageContainer img: Estilos para la imagen dentro del contenedor */
+.imageContainer img {
+  max-width: 100%; /* Asegura que la imagen no exceda el contenedor */
+  height: auto;
+  border-radius: 10px; /* Bordes redondeados para estética */
+}
+
+/* .container: Contenedor principal para el formulario */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; /* Disposición vertical */
+  width: 100%;            /* Asegura que ocupe todo el ancho disponible */
+  box-sizing: border-box; /* Incluye el padding en el tamaño total */
+  padding: 0 20px;        /* Espaciado lateral para evitar tocar los bordes en pantallas pequeñas */
+}
+
+/* .formContainer: Contenedor del formulario */
+.formContainer {
+  background-color: rgba(255, 255, 255, 0.95); /* Fondo ligeramente más opaco */
+  padding: 30px 40px; /* Espaciado interno */
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 100%;
+  box-sizing: border-box; /* Incluye el padding en el tamaño total */
+}
+
+/* .formContainer h1: Estilos para el título del formulario */
+.formContainer h1 {
+  text-align: center;
+  margin-bottom: 25px; /* Espacio entre el título y el formulario */
+  font-size: 24px;      /* Tamaño del texto */
+  color: #333;          /* Color del texto */
+}
+
+/* .inputGroup: Agrupación de cada campo de entrada */
+.inputGroup {
+  width: 100%;
+  margin-bottom: 20px; /* Espacio entre campos */
+}
+
+/* .inputGroup label: Estilos para las etiquetas de los campos */
+.inputGroup label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555; /* Color del texto de las etiquetas */
+}
+
+/* .inputField: Estilos para los campos de entrada */
+.inputField {
+  width: 100%;
+  padding: 12px 15px; /* Espaciado interno */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;      /* Tamaño del texto */
+  transition: border-color 0.3s;
+  box-sizing: border-box; /* Incluye el padding en el tamaño total */
+}
+
+/* .inputField:focus: Estilos al enfocar el campo de entrada */
+.inputField:focus {
+  border-color: #FFA500; /* Color del borde al enfocar */
+  outline: none;         /* Eliminar el contorno predeterminado */
+}
+
+/* .cambiarButton: Estilos para el botón de cambiar contraseña */
+.cambiarButton {
+  width: 100%;
+  padding: 12px 15px;
+  background-color: #FFA500;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+/* .cambiarButton:hover: Estilos al pasar el cursor sobre el botón */
+.cambiarButton:hover {
+  background-color: #FF8C00;
+}
+
+/* .linksContainer: Contenedor para enlaces adicionales */
+.linksContainer {
+  margin-top: 15px;
+  text-align: center;
+}
+
+/* .linkButtonSmall: Estilos para los botones de enlace pequeños */
+.linkButtonSmall {
+  background: none;
+  border: none;
+  color: #0070f3;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+  padding: 0;
+}
+
+/* .linkButtonSmall:hover: Estilos al pasar el cursor sobre los botones de enlace pequeños */
+.linkButtonSmall:hover {
+  color: #005bb5;
+}
+
+/* .error: Estilos para mensajes de error */
+.error {
+  color: red;
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+/* .success: Estilos para mensajes de éxito */
+.success {
+  color: green;
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+/* Media Queries para Responsividad */
+@media (max-width: 600px) {
+  .imageContainer {
+    max-width: 100%; /* Permite que la imagen ocupe todo el ancho en pantallas pequeñas */
+    margin-bottom: 15px; /* Reduce el espacio entre la imagen y el formulario */
+  }
+
+  .formContainer {
+    padding: 20px 25px; /* Reduce el padding en pantallas pequeñas */
+  }
+
+  .formContainer h1 {
+    font-size: 20px; /* Reduce el tamaño del título */
+    margin-bottom: 20px;
+  }
+
+  .inputField, .cambiarButton {
+    font-size: 14px; /* Reduce el tamaño de fuente de los campos y botones */
+    padding: 10px 12px;
+  }
+
+  .linkButtonSmall {
+    font-size: 12px; /* Reduce el tamaño de fuente de los enlaces */
+  }
+}
