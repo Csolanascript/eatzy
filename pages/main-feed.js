@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../styles/Main-feed.module.css'; 
 import jwt from 'jsonwebtoken';
-import { FaUserCircle } from 'react-icons/fa'; // Asegúrate de tener react-icons instalado
+import { FaUserCircle, FaClipboardList } from 'react-icons/fa'; // Asegúrate de tener react-icons instalado
 
 export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }) {
   const [restaurantes, setRestaurantes] = useState([]);
@@ -29,20 +29,27 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
       }
     };
 
-    /*if (propietarioCorreo) {
-      fetchRestaurantes();
-    }
-  }, [propietarioCorreo]);
-    */
+   
 
   if (propietarioCorreo && localidad) {
     fetchRestaurantes();
   }
 }, [propietarioCorreo, localidad]);
 
-  const handleRestaurantClick = (restauranteId) => {
+  /*const handleRestaurantClick = (restauranteId) => {
     router.push(`/restaurante/${restauranteId}`);
   };
+  */
+  const handleRestaurantClick = (restauranteNombre, restauranteLocalidad) => {
+    // Asegúrate de pasar tanto el nombre como la localidad
+    router.push(`/cliente/${encodeURIComponent(restauranteNombre)}/${encodeURIComponent(localidad)}/carta-cliente`);
+  };
+
+  const handleCartaClick = (restauranteNombre, restauranteLocalidad) => {
+    // Aquí también aseguramos pasar ambos valores
+    router.push(`/cliente/${encodeURIComponent(restauranteNombre)}/${encodeURIComponent(restauranteLocalidad)}/carta-cliente`);
+  };
+
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -93,9 +100,15 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
                 <li 
                   key={restaurante.id} 
                   className={styles.restaurantItem}
-                  onClick={() => handleRestaurantClick(restaurante.id)}
+                  //onClick={() => handleRestaurantClick(restaurante.id)}
                 >
-                  {restaurante.nombre} - {restaurante.localidad}
+                  <span onClick={() => handleRestaurantClick(restaurante.nombre, restaurante.localidad)}>
+                    {restaurante.nombre} - {restaurante.localidad}
+                  </span>
+                  <FaClipboardList 
+                    className={styles.iconCarta} 
+                    onClick={() => handleCartaClick(restaurante.nombre, restaurante.localidad)}
+                  />
                 </li>
               ))}
             </ul>
