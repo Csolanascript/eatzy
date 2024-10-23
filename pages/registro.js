@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styles from '../styles/registro.module.css'; // Estilos para el formulario
 import { useRouter } from 'next/router';  // Importar useRouter desde next/router
+import Image from 'next/image';
+
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -60,6 +62,11 @@ export default function Signup() {
       return 'El tipo de usuario solo puede ser Cliente o Propietario';
     }
 
+    // Validar que el portal escrito es válido
+    if(numero<1){
+      return 'Introduzca un portal válido';
+    }
+
     return null;
   };
 
@@ -114,21 +121,23 @@ export default function Signup() {
         Your browser does not support the video tag.
       </video>
 
-      <h1>Registro de Usuario</h1>
+      <div className={styles.encabezado}>
+        <div className={styles.item1}>
+          <h1>Registro de Usuario</h1>
+        </div>
+        <div className={styles.item2}>
+          <Image
+          src="/images/imagen.png"
+          alt="Banner de Eatzy"
+          width={180}
+          height={140}
+          />
+        </div>
+      </div>
       <form onSubmit={handleSubmit} className={styles.signupForm}>
         {error && <p className={styles.errorMessage}>{error}</p>}
         {success && <p className={styles.successMessage}>{success}</p>}
         
-        <label>Correo:</label>
-        <input
-          type="email"
-          name="correo"
-          value={formData.correo}
-          onChange={handleChange}
-          placeholder="Correo"
-          required
-        />
-
         <label>Nombre de usuario:</label>
         <input
           type="text"
@@ -136,6 +145,16 @@ export default function Signup() {
           value={formData.nombre_usuario}
           onChange={handleChange}
           placeholder="Nombre de usuario"
+          required
+        />
+
+        <label>Correo:</label>
+        <input
+          type="email"
+          name="correo"
+          value={formData.correo}
+          onChange={handleChange}
+          placeholder="Correo"
           required
         />
 
@@ -169,6 +188,16 @@ export default function Signup() {
           required
         />
 
+        <label>Portal:</label>
+        <input
+          type="number"
+          name="numero"
+          value={formData.numero}
+          onChange={handleChange}
+          placeholder="Portal"
+          required
+        />
+
         <label>Piso:</label>
         <input
           type="text"
@@ -176,16 +205,6 @@ export default function Signup() {
           value={formData.piso}
           onChange={handleChange}
           placeholder="Piso"
-          required
-        />
-
-        <label>Número:</label>
-        <input
-          type="number"
-          name="numero"
-          value={formData.numero}
-          onChange={handleChange}
-          placeholder="Número"
           required
         />
 
@@ -211,7 +230,7 @@ export default function Signup() {
         </select>
 
         <button type="submit" className={styles.signupButton}>
-          Registrar Usuario
+          ¡A comer!
         </button>
       </form>
     </div>

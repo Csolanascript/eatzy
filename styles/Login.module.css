@@ -20,7 +20,7 @@
 .container {
   display: flex;
   width: 100%;
-  max-width: 1200px;
+  max-width: 800px;
   justify-content: space-between;
   align-items: center;
   padding: 20px;
@@ -43,23 +43,24 @@
 
 /* Contenedor del formulario */
 .formContainer {
+  background-color: rgba(255, 255, 255, 0.95); /* Fondo ligeramente más opaco */
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   text-align: center;
   width: 400px;
-  border: 1px solid white;
-  padding-top: 1%;
-  padding-bottom: 1%;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  padding-bottom: 3%;
   padding-left: 5%;
   padding-right: 5%;
-  border-radius: 20px;;
+  border-radius: 20px;
 }
 
 .formContainer h1 {
-  font-size: 35px;
-  color : white;
+  font-size: 30px;
+  color : black;
 }
 
 .formContainer label {
@@ -68,16 +69,18 @@
 
 /* Grupo de inputs, cada campo con su label */
 .inputGroup {
-  margin-bottom: 15px;
   text-align: left;
-  color: white;
+  display: block;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: #555; /* Color del texto de las etiquetas */
 }
 
 /* Estilo para los campos de entrada */
 .inputField {
   width: 100%;
-  font-size: 15px;
-  padding: 8px;
+  font-size: 16px;
+  padding: 12px 15px;
   margin-top: 5px;
   border-radius: 5px;
   border: 1px solid gray;

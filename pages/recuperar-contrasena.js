@@ -61,7 +61,7 @@ export default function RecuperarContrasena() {
           {error && <p className={styles.error}>{error}</p>}
 
           <form onSubmit={handleRecuperar}>
-            <div className={styles.inputGroup}>
+             <div className={styles.inputGroup}>
               <label htmlFor="correo">Correo Electrónico</label>
               <input 
                 type="email" 
