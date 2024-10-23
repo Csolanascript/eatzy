@@ -73,3 +73,30 @@
     text-align: center;
     font-size: 1.1em;
   }
+
+  .linkButtonSmall {
+    margin-top: 10px;
+    background: none;
+    border: none;
+    color: #0070f3;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 14px;
+    padding: 0;
+  }
+  
+  .linkButtonSmall:hover {
+    color: #005bb5;
+  }
+
+  .flexRow {
+    display: flex;
+    justify-content: space-between; /* Espacia entre los dos elementos */
+    gap: 20px; /* Ajusta el espacio entre los campos */
+  }
+  
+  .inputGroup {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }

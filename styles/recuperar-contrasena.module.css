@@ -2,10 +2,10 @@
 
 .pagina {
   display: flex;
-  height: 90vh;
-  justify-content: center;
+  height: 100vh;
+  justify-content: flex-start;
   align-items: center;
-  flex-direction: column; /* Para mantener el logo arriba */
+  flex-direction: column;
 }
 
 .videoBackground {
@@ -19,6 +19,7 @@
 }
 
 .imageContainer {
+  margin-top: 25px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,11 +56,15 @@
 }
 
 .inputGroup {
-  margin-bottom: 20px; /* Espacio entre campos */
+  text-align: left;
+  display: block;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: #555; /* Color del texto de las etiquetas */
 }
 
 .inputGroup label {
-  font-size: 19px;
+  font-size: 22px;
   display: block;
   margin-bottom: 8px;
   font-weight: bold;
@@ -91,11 +96,11 @@
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
-  transition: background-color 0.3s;
 }
 
 .recuperarButton:hover {
   background-color: #FF8C00;
+  transform: scale(1.05);
 }
 
 .linksContainer {

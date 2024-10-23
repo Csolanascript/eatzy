@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from '../styles/registro.module.css'; // Estilos para el formulario
-import { useRouter } from 'next/router';  // Importar useRouter desde next/router
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 
 
@@ -19,6 +19,7 @@ export default function Signup() {
 
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const router = useRouter();
 
   const handleChange = (e) => {
     setFormData({
@@ -113,6 +114,11 @@ export default function Signup() {
     }
   };
 
+  const handleBackToLogin = async (e) => {
+    e.preventDefault(); // Prevenir el comportamiento por defecto (recarga de página)
+    router.push('/login');
+  };
+
   return (
     <div className={styles.signupContainer}>
               {/* Video de fondo */}
@@ -188,25 +194,31 @@ export default function Signup() {
           required
         />
 
-        <label>Portal:</label>
-        <input
-          type="number"
-          name="numero"
-          value={formData.numero}
-          onChange={handleChange}
-          placeholder="Portal"
-          required
-        />
+        <div className={styles.flexRow}>
+          <div className={styles.inputGroup}>
+            <label>Portal:</label>
+            <input
+            type="number"
+            name="numero"
+            value={formData.numero}
+            onChange={handleChange}
+            placeholder="Portal"
+            required
+            />
+          </div>
 
-        <label>Piso:</label>
-        <input
-          type="text"
-          name="piso"
-          value={formData.piso}
-          onChange={handleChange}
-          placeholder="Piso"
-          required
-        />
+          <div className={styles.inputGroup}>
+            <label>Piso:</label>
+            <input
+            type="text"
+            name="piso"
+            value={formData.piso}
+            onChange={handleChange}
+            placeholder="Piso"
+            required
+            />
+          </div>
+        </div>
 
         <label>Código Postal:</label>
         <input
@@ -231,6 +243,9 @@ export default function Signup() {
 
         <button type="submit" className={styles.signupButton}>
           ¡A comer!
+        </button>
+        <button onClick={handleBackToLogin} className={styles.linkButtonSmall}>
+              Volver al Login
         </button>
       </form>
     </div>
