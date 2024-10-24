@@ -41,6 +41,14 @@ export default function GestionPedidos({ propietarioCorreo }) {
               <p className={styles.orderStatus}>
                 Estado: <span className={styles[pedido.estado]}>{pedido.estado}</span>
               </p>
+              
+              {/* Mostrar el nombre del restaurante y la localidad */}
+              {pedido.contiene.length > 0 && (
+                <p className={styles.restaurantName}>
+                  Restaurante: {pedido.contiene[0].nombre} ({pedido.contiene[0].localidad})
+                </p>
+              )}
+
               <h3>Productos:</h3>
               <ul className={styles.productList}>
                 {pedido.contiene.map((producto) => (

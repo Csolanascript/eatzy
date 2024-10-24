@@ -40,6 +40,11 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
     // Aquí también aseguramos pasar ambos valores
     router.push(`/restaurante/${encodeURIComponent(restauranteNombre)}/${encodeURIComponent(restauranteLocalidad)}/carta`);
   };
+
+  const handlePedidosClick = (restauranteNombre, restauranteLocalidad) => {
+    // Redirigir a la gestión de pedidos del restaurante
+    router.push(`/restaurante/${encodeURIComponent(restauranteNombre)}/${encodeURIComponent(restauranteLocalidad)}/gestionPedidosRestaurante`);
+  };
   
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -65,7 +70,10 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
       <aside className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ''}`}>
         <nav>
           <ul>
-            <li onClick={() => handleNavigation('/perfil')}>Perfil</li>
+            {/* Asegúrate de tener un restaurante seleccionado antes de hacer clic en Mis pedidos */}
+            {restaurantes.length > 0 && (
+              <li onClick={() => handlePedidosClick(restaurantes[0].nombre, restaurantes[0].localidad)}>Mis pedidos</li>
+            )}
             <li onClick={() => handleNavigation('/configuracion')}>Configuración</li>
             <li onClick={() => handleNavigation('/cerrar-sesion')}>Cerrar Sesión</li>
           </ul>

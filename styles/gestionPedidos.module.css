@@ -84,18 +84,19 @@
 }
 
 /* Estilos para los diferentes estados */
-.solicitado {
+.en_cocina {
   color: orange;
 }
-
-.aceptado {
-  color: green;
-}
-
 .en_camino {
-  color: blue;
+  color: red;
 }
 
 .completado {
-  color: gray;
+  color: green;
+}
+.restaurantName {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
 }

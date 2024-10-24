@@ -25,7 +25,7 @@ model pedido {
   fecha        DateTime?  @db.Date
   precio_total Decimal?   @db.Decimal(10, 2)
   correo       String?    @db.VarChar(100)
-  estado       EstadoPedido  @default(solicitado) // Nuevo campo de estado, con valor por defecto 'solicitado'
+  estado       EstadoPedido  @default(en_cocina) // Nuevo campo de estado, con valor por defecto 'solicitado'
   contiene     contiene[] // Relación uno a muchos con `contiene`
   usuario      usuario?   @relation(fields: [correo], references: [correo], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -75,8 +75,7 @@ enum tipo_usuario {
 
 // Enum para representar el estado del pedido
 enum EstadoPedido {
-  solicitado
-  aceptado
+  en_cocina
   en_camino
   completado
 }
