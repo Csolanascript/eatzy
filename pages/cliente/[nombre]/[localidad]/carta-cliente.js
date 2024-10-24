@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../../../../styles/Carta.module.css';
+import Link from 'next/link';
+import jwt from 'jsonwebtoken';
 
 export default function Carta() {
   const router = useRouter();
-  const { nombre, localidad } = router.query; // Capturar tanto el nombre como la localidad desde la URL
+  const { nombre, localidad } = router.query;
   const [productos, setProductos] = useState([]);
   const [error, setError] = useState(null);
 
@@ -30,7 +32,6 @@ export default function Carta() {
   }, [nombre, localidad]);
 
   const handleProductClick = (productoNombre) => {
-    // Redirige a la página de información del producto
     router.push(`/cliente/${encodeURIComponent(nombre)}/${encodeURIComponent(localidad)}/producto/${encodeURIComponent(productoNombre)}`);
   };
 
@@ -42,19 +43,62 @@ export default function Carta() {
       ) : productos.length > 0 ? (
         <ul className={styles.productList}>
           {productos.map((producto) => (
-            <li
-              key={producto.nombre_producto}
-              className={styles.productItem}
-              onClick={() => handleProductClick(producto.nombre_producto)} // Agregar evento onClick
-            >
+            <li key={producto.nombre_producto} className={styles.productItem}>
               <span className={styles.productName}>{producto.nombre_producto}</span>
               <span className={styles.productPrice}>{producto.precio}€</span>
+              <button 
+                className={styles.viewButton} 
+                onClick={() => handleProductClick(producto.nombre_producto)}
+              >
+                Ver descripción
+              </button>
             </li>
           ))}
         </ul>
       ) : (
         <p className={styles.noProducts}>No hay productos registrados para este restaurante.</p>
       )}
+
+      {/* Enlace a la pantalla de hacer pedido */}
+      <Link href={`/cliente/${encodeURIComponent(nombre)}/${encodeURIComponent(localidad)}/HacerPedido`}>
+        <button className={styles.orderButton}>
+          Hacer pedido
+        </button>
+      </Link>
     </div>
   );
+}
+
+// getServerSideProps actualizado
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const token = req.cookies['auth-token'];
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const propietarioCorreo = decoded.correo;
+    const nombreUsuario = decoded.nombreUsuario || null; // Extraer el nombre de usuario del token
+    const localidad = decoded.localidad || null; // Extraer localidad
+
+    return {
+      props: { propietarioCorreo, nombreUsuario, localidad }, // Pasar el correo como prop
+    };
+  } catch (error) {
+    console.error('Error al verificar el token:', error);
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
 }

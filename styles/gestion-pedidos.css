@@ -1,0 +1,76 @@
+/* Estilos generales para la página */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+  }
+  
+  .title {
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .error {
+    color: red;
+    font-size: 18px;
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .noOrders {
+    font-size: 18px;
+    text-align: center;
+    color: #777;
+    margin-top: 20px;
+  }
+  
+  /* Lista de pedidos */
+  .orderList {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .orderItem {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .orderItem h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .orderItem p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .orderItem h3 {
+    font-size: 20px;
+    color: #333;
+    margin-top: 10px;
+  }
+  
+  .orderItem ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .orderItem li {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  

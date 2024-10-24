@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../../../../../styles/info-product.module.css';
+import jwt from 'jsonwebtoken';
 
 export default function InfoProducto() {
   const router = useRouter();
@@ -59,4 +60,38 @@ export default function InfoProducto() {
       )}
     </div>
   );
+}
+
+// getServerSideProps actualizado
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const token = req.cookies['auth-token'];
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const propietarioCorreo = decoded.correo;
+    const nombreUsuario = decoded.nombreUsuario || null; // Extraer el nombre de usuario del token
+    const localidad = decoded.localidad || null; // Extraer localidad
+
+    return {
+      props: { propietarioCorreo, nombreUsuario, localidad }, // Pasar el correo como prop
+    };
+  } catch (error) {
+    console.error('Error al verificar el token:', error);
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
 }
