@@ -1,0 +1,101 @@
+.container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 20px 0;
+}
+
+.noOrders {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.orderList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.orderItem {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  padding: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.orderItem:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.orderItem h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.orderDate, .orderTotal, .orderStatus {
+  font-size: 1.1rem;
+  color: #555;
+  margin: 5px 0;
+}
+
+.orderStatus span {
+  font-weight: bold;
+}
+
+.productList {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.productItem {
+  font-size: 1.1rem;
+  color: #555;
+  margin: 5px 0;
+}
+
+.productItem::before {
+  content: '•';
+  color: #ff5722;
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+/* Estilos para los diferentes estados */
+.solicitado {
+  color: orange;
+}
+
+.aceptado {
+  color: green;
+}
+
+.en_camino {
+  color: blue;
+}
+
+.completado {
+  color: gray;
+}

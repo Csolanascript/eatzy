@@ -65,11 +65,16 @@ export default async function handler(req, res) {
       return res.status(200).json(restaurantes);
 
     } catch (error) {
-      console.error('Error al obtener los restaurantes:', error);
-      return res.status(500).json({ error: 'Error al obtener los restaurantes' });
+      console.error('Error al crear el pedido:', error); // Asegúrate de imprimir el error completo
+      res.status(500).json({ message: 'Error al crear el pedido', error: error.message, stack: error.stack });
     }
   } else {
     res.setHeader('Allow', ['GET']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
+
+  if (!correo) {
+    return res.status(401).json({ message: 'Usuario no autenticado' });
+  }
+  
 }

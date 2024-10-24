@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import styles from '../../../../styles/HacerPedido.module.css';
 import jwt from 'jsonwebtoken';
 
-export default function HacerPedido() {
+export default function HacerPedido({ propietarioCorreo }) {  // Recibe el correo como prop
   const router = useRouter();
   const { nombre, localidad } = router.query; 
   const [productos, setProductos] = useState([]);
@@ -76,6 +76,7 @@ export default function HacerPedido() {
         body: JSON.stringify({
           productos: productosSeleccionados,
           precioTotal: calcularTotal(),
+          correo: propietarioCorreo, // Aquí es donde pasamos el correo
         }),
       });
 

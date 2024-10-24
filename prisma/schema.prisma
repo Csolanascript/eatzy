@@ -8,23 +8,25 @@ datasource db {
 }
 
 model contiene {
-  id              Int
-  nombre_producto String    @db.VarChar(100)
+  id              Int        @id @default(autoincrement()) // Clave primaria autoincremental
+  nombre_producto String     @db.VarChar(100)
   unidades        Int?
-  nombre          String    @db.VarChar(100)
-  localidad       String    @db.VarChar(100)
-  pedido          pedido    @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  productos       productos @relation(fields: [nombre_producto, nombre, localidad], references: [nombre_producto, nombre, localidad], onDelete: NoAction, onUpdate: NoAction)
+  nombre          String     @db.VarChar(100)
+  localidad       String     @db.VarChar(100)
+  pedidoId        Int        // Clave foránea para relacionar con `pedido`
+  pedido          pedido     @relation(fields: [pedidoId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  productos       productos  @relation(fields: [nombre_producto, nombre, localidad], references: [nombre_producto, nombre, localidad], onDelete: NoAction, onUpdate: NoAction)
 
-  @@id([id, nombre_producto, nombre, localidad])
+  @@unique([nombre_producto, nombre, localidad, pedidoId]) // Clave única para evitar duplicados en esta combinación
 }
 
 model pedido {
-  id           Int        @id
+  id           Int        @id @default(autoincrement()) // Clave primaria autoincremental
   fecha        DateTime?  @db.Date
   precio_total Decimal?   @db.Decimal(10, 2)
   correo       String?    @db.VarChar(100)
-  contiene     contiene[]
+  estado       EstadoPedido  @default(solicitado) // Nuevo campo de estado, con valor por defecto 'solicitado'
+  contiene     contiene[] // Relación uno a muchos con `contiene`
   usuario      usuario?   @relation(fields: [correo], references: [correo], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -34,10 +36,10 @@ model productos {
   precio          Decimal?    @db.Decimal(10, 2)
   nombre          String      @db.VarChar(100)
   localidad       String      @db.VarChar(100)
-  contiene        contiene[]
+  contiene        contiene[]  // Relación uno a muchos con `contiene`
   restaurante     restaurante @relation(fields: [nombre, localidad], references: [nombre, localidad], onDelete: NoAction, onUpdate: NoAction)
 
-  @@id([nombre, localidad, nombre_producto])
+  @@id([nombre, localidad, nombre_producto]) // Clave primaria compuesta
 }
 
 model restaurante {
@@ -46,10 +48,10 @@ model restaurante {
   categoria   String?     @db.VarChar(50)
   correo      String?     @db.VarChar(100)
   localidad   String      @db.VarChar(100)
-  productos   productos[]
+  productos   productos[] // Relación uno a muchos con `productos`
   usuario     usuario?    @relation(fields: [correo], references: [correo], onDelete: NoAction, onUpdate: NoAction)
 
-  @@id([nombre, localidad])
+  @@id([nombre, localidad]) // Clave primaria compuesta
 }
 
 model usuario {
@@ -62,11 +64,19 @@ model usuario {
   numero         Int?
   codigo_postal  String?       @db.VarChar(10)
   tipo           tipo_usuario
-  pedido         pedido[]
-  restaurante    restaurante[]
+  pedido         pedido[]      // Relación uno a muchos con `pedido`
+  restaurante    restaurante[] // Relación uno a muchos con `restaurante`
 }
 
 enum tipo_usuario {
   Cliente
   Propietario
+}
+
+// Enum para representar el estado del pedido
+enum EstadoPedido {
+  solicitado
+  aceptado
+  en_camino
+  completado
 }

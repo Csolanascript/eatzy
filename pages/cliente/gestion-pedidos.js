@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from '../styles/GestionPedidos.module.css';
+import styles from '../../styles/gestionPedidos.module.css';
 import jwt from 'jsonwebtoken';
 
 export default function GestionPedidos({ propietarioCorreo }) {
@@ -36,12 +36,15 @@ export default function GestionPedidos({ propietarioCorreo }) {
           {pedidos.map((pedido) => (
             <li key={pedido.id} className={styles.orderItem}>
               <h2>Pedido #{pedido.id}</h2>
-              <p>Realizado el {new Date(pedido.fecha).toLocaleDateString()}</p>
-              <p>Total: {pedido.precio_total}€</p>
+              <p className={styles.orderDate}>Realizado el {new Date(pedido.fecha).toLocaleDateString()}</p>
+              <p className={styles.orderTotal}>Total: {pedido.precio_total}€</p>
+              <p className={styles.orderStatus}>
+                Estado: <span className={styles[pedido.estado]}>{pedido.estado}</span>
+              </p>
               <h3>Productos:</h3>
-              <ul>
+              <ul className={styles.productList}>
                 {pedido.contiene.map((producto) => (
-                  <li key={producto.nombre_producto}>
+                  <li key={producto.nombre_producto} className={styles.productItem}>
                     {producto.nombre_producto}: {producto.unidades} x {producto.precio}€
                   </li>
                 ))}
