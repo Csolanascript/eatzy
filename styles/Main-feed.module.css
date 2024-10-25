@@ -1,9 +1,57 @@
-/* Main-feed.module.css */
-
-.container {
-  display: flex;
+.pagina {
   background-color: blanchedalmond;
   height: 100vh;
+}
+/* Cabecera */
+.cabecera {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  z-index: 1000;
+}
+
+/* Contenedor de los elementos en la cabecera */
+.inCabecera {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+/* Banner centrado */
+.banner {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+/* UserBox en la esquina superior derecha */
+.userBox {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #fff;
+  color: #333;
+  padding: 8px 12px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1001; /* Más alto que el sidebar para que se mantenga visible */
+}
+
+.userName {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.userIcon {
+  font-size: 24px;
 }
 
 /* Botón para togglear el menú lateral */
@@ -15,7 +63,7 @@
   border: none;
   font-size: 24px;
   cursor: pointer;
-  z-index: 1001;
+  z-index: 1002; /* Más alto que el sidebar para estar siempre encima */
 }
 
 /* Menú lateral */
@@ -28,7 +76,7 @@
   background-color: #333;
   color: #fff;
   transition: left 0.3s ease;
-  z-index: 1000;
+  z-index: 1000; /* Por debajo del toggleButton */
   padding-top: 60px; /* Espacio para el botón */
 }
 
@@ -50,57 +98,15 @@
   background-color: #444;
 }
 
-
-.userBox {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background-color: #fff;
-  color: #333;
-  display: flex;
-  align-items: center;
-  padding: 8px 12px;
-  border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  z-index: 1001;
-}
-
-.userIcon {
-  font-size: 24px;
-  margin-right: 8px;
-}
-
-.userName {
-  font-size: 16px;
-  font-weight: 500;
-}
-
 /* Contenido principal */
 .mainContent {
   flex: 1;
-  margin-left: 0;
-  transition: margin-left 0.3s ease;
   padding: 20px;
+  padding-top: 175px; /* Ajusta esto según la altura de tu cabecera */
+  transition: all 0.3s ease;
 }
 
-.sidebar.open ~ .mainContent {
-  margin-left: 250px; /* Desplaza el contenido cuando el menú está abierto */
-}
-
-/* Contenido principal */
-.mainContent {
-  flex: 1;
-  margin-left: 0;
-  transition: margin-left 0.3s ease;
-  padding: 20px;
-}
-
-.sidebar.open ~ .mainContent {
-  margin-left: 250px; /* Desplaza el contenido cuando el menú está abierto */
-}
-
-/* Resto de tus estilos existentes */
-
+/* Otros estilos */
 .header {
   text-align: center;
   margin-bottom: 20px;
@@ -148,4 +154,25 @@
 .noRestaurants {
   font-size: 18px;
   color: #777;
+}
+
+.welcomeMessage {
+  font-size: 24px;
+  color: #555;
+  text-align: center;
+  padding: 20px;
+  animation: fadeIn 1.5s ease-in-out infinite;
+  font-weight: bold;
+  border-radius: 8px;
+  margin: 20px auto;
+  max-width: 80%; /* Limita el ancho para no ocupar toda la pantalla */
+}
+
+@keyframes fadeIn {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
 }

@@ -123,132 +123,133 @@ export default function Signup() {
     <div className={styles.pagina}>
       {/* Video de fondo */}
       <video autoPlay loop muted className={styles.videoBackground}>
-      <source src="/video/fondo.mp4" type="video/mp4" />
+        <source src="/video/fondo.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
+      
       <div className={styles.signupContainer}>
-      <div className={styles.encabezado}>
-        <div className={styles.item1}>
-          <h1>Registro de Usuario</h1>
-        </div>
-        <div className={styles.item2}>
-          <Image
-          src="/images/imagen.png"
-          alt="Banner de Eatzy"
-          width={180}
-          height={140}
-          />
-        </div>
-      </div>
-      <form onSubmit={handleSubmit} className={styles.signupForm}>
-        {error && <p className={styles.errorMessage}>{error}</p>}
-        {success && <p className={styles.successMessage}>{success}</p>}
-        
-        <label>Nombre de usuario:</label>
-        <input
-          type="text"
-          name="nombre_usuario"
-          value={formData.nombre_usuario}
-          onChange={handleChange}
-          placeholder="Nombre de usuario"
-          required
-        />
-
-        <label>Correo:</label>
-        <input
-          type="email"
-          name="correo"
-          value={formData.correo}
-          onChange={handleChange}
-          placeholder="Correo"
-          required
-        />
-
-        <label>Contraseña:</label>
-        <input
-          type="password"
-          name="contrasena"
-          value={formData.contrasena}
-          onChange={handleChange}
-          placeholder="Contraseña"
-          required
-        />
-
-        <label>Localidad:</label>
-        <input
-          type="text"
-          name="localidad"
-          value={formData.localidad}
-          onChange={handleChange}
-          placeholder="Localidad"
-          required
-        />
-
-        <label>Calle:</label>
-        <input
-          type="text"
-          name="calle"
-          value={formData.calle}
-          onChange={handleChange}
-          placeholder="Calle"
-          required
-        />
-
-        <div className={styles.flexRow}>
-          <div className={styles.inputGroup}>
-            <label>Portal:</label>
-            <input
-            type="number"
-            name="numero"
-            value={formData.numero}
-            onChange={handleChange}
-            placeholder="Portal"
-            required
+        <div className={styles.encabezado}>
+          <div className={styles.item1}>
+            <h1>Registro de Usuario</h1>
+          </div>
+          <div className={styles.item2}>
+            <Image
+            src="/images/imagen.png"
+            alt="Banner de Eatzy"
+            width={180}
+            height={140}
             />
           </div>
-
-          <div className={styles.inputGroup}>
-            <label>Piso:</label>
-            <input
+        </div>
+        <form onSubmit={handleSubmit} className={styles.signupForm}>
+          {error && <p className={styles.errorMessage}>{error}</p>}
+          {success && <p className={styles.successMessage}>{success}</p>}
+          
+          <label>Nombre de usuario:</label>
+          <input
             type="text"
-            name="piso"
-            value={formData.piso}
+            name="nombre_usuario"
+            value={formData.nombre_usuario}
             onChange={handleChange}
-            placeholder="Piso"
+            placeholder="Nombre de usuario"
             required
-            />
+          />
+
+          <label>Correo:</label>
+          <input
+            type="email"
+            name="correo"
+            value={formData.correo}
+            onChange={handleChange}
+            placeholder="Correo"
+            required
+          />
+
+          <label>Contraseña:</label>
+          <input
+            type="password"
+            name="contrasena"
+            value={formData.contrasena}
+            onChange={handleChange}
+            placeholder="Contraseña"
+            required
+          />
+
+          <label>Localidad:</label>
+          <input
+            type="text"
+            name="localidad"
+            value={formData.localidad}
+            onChange={handleChange}
+            placeholder="Localidad"
+            required
+          />
+
+          <label>Calle:</label>
+          <input
+            type="text"
+            name="calle"
+            value={formData.calle}
+            onChange={handleChange}
+            placeholder="Calle"
+            required
+          />
+
+          <div className={styles.flexRow}>
+            <div className={styles.inputGroup}>
+              <label>Portal:</label>
+              <input
+              type="number"
+              name="numero"
+              value={formData.numero}
+              onChange={handleChange}
+              placeholder="Portal"
+              required
+              />
+            </div>
+
+            <div className={styles.inputGroup}>
+              <label>Piso:</label>
+              <input
+              type="text"
+              name="piso"
+              value={formData.piso}
+              onChange={handleChange}
+              placeholder="Piso"
+              required
+              />
+            </div>
           </div>
-        </div>
 
-        <label>Código Postal:</label>
-        <input
-          type="text"
-          name="codigo_postal"
-          value={formData.codigo_postal}
-          onChange={handleChange}
-          placeholder="Código Postal"
-          required
-        />
+          <label>Código Postal:</label>
+          <input
+            type="text"
+            name="codigo_postal"
+            value={formData.codigo_postal}
+            onChange={handleChange}
+            placeholder="Código Postal"
+            required
+          />
 
-        <label>Tipo de Usuario:</label>
-        <select
-          name="tipo"
-          value={formData.tipo}
-          onChange={handleChange}
-          required
-        >
-          <option value="Cliente">Cliente</option>
-          <option value="Propietario">Propietario</option>
-        </select>
+          <label>Tipo de Usuario:</label>
+          <select
+            name="tipo"
+            value={formData.tipo}
+            onChange={handleChange}
+            required
+          >
+            <option value="Cliente">Cliente</option>
+            <option value="Propietario">Propietario</option>
+          </select>
 
-        <button type="submit" className={styles.signupButton}>
-          ¡A comer!
-        </button>
-        <button onClick={handleBackToLogin} className={styles.linkButtonSmall}>
-              Volver al Login
-        </button>
-      </form>
-    </div>
+          <button type="submit" className={styles.signupButton}>
+            ¡A comer!
+          </button>
+          <button onClick={handleBackToLogin} className={styles.linkButtonSmall}>
+            Volver al Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

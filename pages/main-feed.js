@@ -3,12 +3,14 @@ import { useRouter } from 'next/router';
 import styles from '../styles/Main-feed.module.css'; 
 import jwt from 'jsonwebtoken';
 import { FaUserCircle, FaClipboardList } from 'react-icons/fa';
+import Image from 'next/image';
 
 export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }) {
   const [restaurantes, setRestaurantes] = useState([]);
   const [error, setError] = useState(null);
   const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [mensajeInicial, setMensajeInicial] = useState("Recordando los mejores platos de tu zona");
 
   useEffect(() => {
     const fetchRestaurantes = async () => {
@@ -30,6 +32,20 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
       fetchRestaurantes();
     }
   }, [propietarioCorreo, localidad]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (error) {
+        setMensajeInicial(error);
+      } else if (restaurantes.length === 0) {
+        setMensajeInicial("No hay restaurantes cerca de tí en los que chuparte los dedos");
+      } else {
+        setMensajeInicial(null); // Oculta el mensaje para mostrar la lista de restaurantes
+      }
+    }, 5000); // Cambia el mensaje después de 3 segundos
+
+    return () => clearTimeout(timer); // Limpia el temporizador al desmontar el componente
+  }, [restaurantes, error]);
 
   const handleLogout = () => {
     // Elimina la cookie del token de autenticación
@@ -55,7 +71,24 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.pagina}>
+      <header className={styles.cabecera}>
+        <div className={styles.inCabecera}>
+          <div className={styles.banner}>
+            <Image
+              src="/images/imagen.png"
+              alt="Banner de Eatzy"
+              width={200}
+              height={150}
+            />
+          </div>
+          <div className={styles.userBox}>
+            <span className={styles.userName}>{nombreUsuario}</span>
+            <FaUserCircle className={styles.userIcon} />
+          </div>
+        </div>
+      </header>
+
       <button className={styles.toggleButton} onClick={toggleSidebar}>
         ☰
       </button>
@@ -70,20 +103,29 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
         </nav>
       </aside>
 
-      <div className={styles.userBox}>
-        <FaUserCircle className={styles.userIcon} />
-        <span className={styles.userName}>{nombreUsuario}</span>
-      </div>
-
       <div className={styles.mainContent}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>EATZY</h1>
-          <p className={styles.subtitle}>¡Has iniciado sesión correctamente!</p>
-        </div>
-
         <div className={styles.content}>
-          <h2 className={styles.restaurantsTitle}>Restaurantes en tu localidad</h2>
-          {error ? (
+          <h2 className={styles.restaurantsTitle}>Restaurantes en {localidad}</h2>
+          {mensajeInicial ? (
+          <p className={styles.welcomeMessage}>{mensajeInicial}</p>
+        ) : restaurantes.length > 0 ? (
+          <ul className={styles.restaurantsList}>
+            {restaurantes.map((restaurante) => (
+              <li key={restaurante.id} className={styles.restaurantItem}>
+                <span onClick={() => handleRestaurantClick(restaurante.nombre, restaurante.localidad)}>
+                  {restaurante.nombre} - {restaurante.localidad}
+                </span>
+                <FaClipboardList 
+                  className={styles.iconCarta} 
+                  onClick={() => handleCartaClick(restaurante.nombre, restaurante.localidad)}
+                />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className={styles.noRestaurants}>No hay restaurantes cerca de tí en los que chuparte los dedos</p>
+        )}
+          {/*{error ? (
             <p className={styles.error}>{error}</p>
           ) : restaurantes.length > 0 ? (
             <ul className={styles.restaurantsList}>
@@ -104,7 +146,7 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
             </ul>
           ) : (
             <p className={styles.noRestaurants}>No hay restaurantes en tu localidad.</p>
-          )}
+          )}*/}
         </div>
       </div>
     </div>
