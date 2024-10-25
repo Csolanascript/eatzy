@@ -1,10 +1,8 @@
-// /pages/main-feed.jsx
-
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../styles/Main-feed.module.css'; 
 import jwt from 'jsonwebtoken';
-import { FaUserCircle, FaClipboardList } from 'react-icons/fa'; // Asegúrate de tener react-icons instalado
+import { FaUserCircle, FaClipboardList } from 'react-icons/fa';
 
 export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }) {
   const [restaurantes, setRestaurantes] = useState([]);
@@ -15,7 +13,6 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
   useEffect(() => {
     const fetchRestaurantes = async () => {
       try {
-        //const response = await fetch(`/api/restaurantes?propietarioCorreo=${propietarioCorreo}`);
         const response = await fetch(`/api/restaurantes?localidad=${encodeURIComponent(localidad)}`);
         const data = await response.json();
         
@@ -29,27 +26,24 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
       }
     };
 
-   
+    if (propietarioCorreo && localidad) {
+      fetchRestaurantes();
+    }
+  }, [propietarioCorreo, localidad]);
 
-  if (propietarioCorreo && localidad) {
-    fetchRestaurantes();
-  }
-}, [propietarioCorreo, localidad]);
-
-  /*const handleRestaurantClick = (restauranteId) => {
-    router.push(`/restaurante/${restauranteId}`);
+  const handleLogout = () => {
+    // Elimina la cookie del token de autenticación
+    document.cookie = 'auth-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    router.push('/login'); // Redirige al usuario al login
   };
-  */
+
   const handleRestaurantClick = (restauranteNombre, restauranteLocalidad) => {
-    // Asegúrate de pasar tanto el nombre como la localidad
     router.push(`/cliente/${encodeURIComponent(restauranteNombre)}/${encodeURIComponent(localidad)}/carta-cliente`);
   };
 
   const handleCartaClick = (restauranteNombre, restauranteLocalidad) => {
-    // Aquí también aseguramos pasar ambos valores
     router.push(`/cliente/${encodeURIComponent(restauranteNombre)}/${encodeURIComponent(restauranteLocalidad)}/carta-cliente`);
   };
-
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -57,28 +51,25 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
 
   const handleNavigation = (path) => {
     router.push(path);
-    setIsSidebarOpen(false); // Cerrar el menú al navegar
+    setIsSidebarOpen(false); // Cierra el menú al navegar
   };
 
   return (
     <div className={styles.container}>
-      {/* Botón para togglear el menú lateral */}
       <button className={styles.toggleButton} onClick={toggleSidebar}>
         ☰
       </button>
 
-      {/* Menú lateral */}
       <aside className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ''}`}>
         <nav>
           <ul>
             <li onClick={() => handleNavigation('/cliente/gestion-pedidos')}>Mis pedidos</li>
             <li onClick={() => handleNavigation('/configuracion')}>Configuración</li>
-            <li onClick={() => handleNavigation('/cerrar-sesion')}>Cerrar Sesión</li>
+            <li onClick={handleLogout}>Cerrar Sesión</li>
           </ul>
         </nav>
       </aside>
 
-      {/* Recuadrito de Usuario */}
       <div className={styles.userBox}>
         <FaUserCircle className={styles.userIcon} />
         <span className={styles.userName}>{nombreUsuario}</span>
@@ -100,7 +91,6 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
                 <li 
                   key={restaurante.id} 
                   className={styles.restaurantItem}
-                  //onClick={() => handleRestaurantClick(restaurante.id)}
                 >
                   <span onClick={() => handleRestaurantClick(restaurante.nombre, restaurante.localidad)}>
                     {restaurante.nombre} - {restaurante.localidad}
@@ -121,7 +111,6 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
   );
 }
 
-// getServerSideProps actualizado
 export async function getServerSideProps(context) {
   const { req } = context;
   const token = req.cookies['auth-token'];
@@ -138,15 +127,14 @@ export async function getServerSideProps(context) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const propietarioCorreo = decoded.correo;
-    const nombreUsuario = decoded.nombreUsuario || null; // Extraer el nombre de usuario del token
-    const localidad = decoded.localidad || null; // Extraer localidad
+    const nombreUsuario = decoded.nombreUsuario || null; 
+    const localidad = decoded.localidad || null;
 
     if (!localidad) {
       console.warn('Localidad no definida para el usuario:', propietarioCorreo);
-      // Puedes manejar este caso como redirigir al usuario para actualizar su perfil
     }
     return {
-      props: { propietarioCorreo, nombreUsuario, localidad }, // Pasar el nombre de usuario como prop
+      props: { propietarioCorreo, nombreUsuario, localidad },
     };
   } catch (error) {
     console.error('Error al verificar el token:', error);
@@ -158,4 +146,3 @@ export async function getServerSideProps(context) {
     };
   }
 }
-

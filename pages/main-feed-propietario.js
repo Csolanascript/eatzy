@@ -45,6 +45,12 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
     // Redirigir a la gestión de pedidos del restaurante
     router.push(`/restaurante/${encodeURIComponent(restauranteNombre)}/${encodeURIComponent(restauranteLocalidad)}/gestionPedidosRestaurante`);
   };
+
+  const handleLogout = () => {
+    // Elimina la cookie del token de autenticación
+    document.cookie = 'auth-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    router.push('/login'); // Redirige al usuario al login
+  };
   
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -75,7 +81,7 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
               <li onClick={() => handlePedidosClick(restaurantes[0].nombre, restaurantes[0].localidad)}>Mis pedidos</li>
             )}
             <li onClick={() => handleNavigation('/configuracion')}>Configuración</li>
-            <li onClick={() => handleNavigation('/cerrar-sesion')}>Cerrar Sesión</li>
+            <li onClick={handleLogout}>Cerrar Sesión</li>
           </ul>
         </nav>
       </aside>
