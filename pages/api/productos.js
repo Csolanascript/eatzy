@@ -15,6 +15,12 @@ export default async function handler(req, res) {
           nombre: nombreRestaurante,
           localidad: localidad,
         },
+        select: {
+          nombre_producto: true,
+          descripcion: true,
+          precio: true,
+          foto: true,  // Incluir la ruta de la imagen en los resultados
+        },
       });
 
       if (productos.length === 0) {

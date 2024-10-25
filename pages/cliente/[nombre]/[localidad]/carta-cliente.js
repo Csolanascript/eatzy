@@ -45,6 +45,13 @@ export default function Carta() {
         <ul className={styles.productList}>
           {productos.map((producto) => (
             <li key={producto.nombre_producto} className={styles.productItem}>
+              {producto.foto && (
+                <img
+                  src={producto.foto}
+                  alt={producto.nombre_producto}
+                  className={styles.productImage} // Añadir la clase de estilos para la imagen
+                />
+              )}
               <span className={styles.productName}>{producto.nombre_producto}</span>
               <span className={styles.productPrice}>{producto.precio}€</span>
               <button 

@@ -93,3 +93,26 @@
 .orderButton:hover {
   background-color: #0056b3;
 }
+.productItem {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.productImage {
+  width: 50px; /* Tamaño de la miniatura */
+  height: 50px; /* Tamaño de la miniatura */
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 4px;
+}
+
+.productName {
+  flex: 1;
+}
+
+.productPrice {
+  margin-left: auto;
+  font-weight: bold;
+}

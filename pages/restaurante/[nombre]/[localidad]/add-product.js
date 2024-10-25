@@ -8,30 +8,31 @@ export default function AddProduct() {
   const [nombreProducto, setNombreProducto] = useState('');
   const [precio, setPrecio] = useState('');
   const [descripcion, setDescripcion] = useState('');
+  const [foto, setFoto] = useState(null); // Estado para almacenar la imagen seleccionada
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validar que los campos no estén vacíos
-    if (!nombreProducto || !precio) {
-      setError('El nombre del producto y el precio son obligatorios');
+    // Validar que los campos requeridos estén presentes
+    if (!nombreProducto || !precio || !foto) {
+      setError('El nombre del producto, el precio, y la imagen son obligatorios');
       return;
     }
 
     try {
+      // Crear un FormData para enviar la imagen y los datos
+      const formData = new FormData();
+      formData.append('nombreProducto', nombreProducto);
+      formData.append('precio', parseFloat(precio)); // Asegurarse de que el precio es un número
+      formData.append('descripcion', descripcion);
+      formData.append('restauranteNombre', nombre);  // Enviar el nombre del restaurante
+      formData.append('localidad', localidad);       // Enviar también la localidad
+      formData.append('foto', foto);                 // Añadir la imagen al FormData
+
       const response = await fetch('/api/add-product', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          nombreProducto,
-          precio: parseFloat(precio), // Asegurarse de que el precio es un número
-          descripcion,
-          restauranteNombre: nombre,  // Enviar el nombre del restaurante
-          localidad,                 // Enviar también la localidad
-        }),
+        body: formData, // Enviar FormData en lugar de JSON
       });
 
       if (response.ok) {
@@ -48,7 +49,7 @@ export default function AddProduct() {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Añadir Producto a {nombre} ({localidad})</h1>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={handleSubmit} encType="multipart/form-data">
         <div className={styles.formGroup}>
           <label htmlFor="nombreProducto">Nombre del Producto</label>
           <input
@@ -75,6 +76,15 @@ export default function AddProduct() {
             onChange={(e) => setDescripcion(e.target.value)}
           />
         </div>
+        <div className={styles.formGroup}>
+          <label htmlFor="foto">Foto del Producto</label>
+          <input
+            type="file"
+            id="foto"
+            accept="image/*"
+            onChange={(e) => setFoto(e.target.files[0])} // Almacena el archivo en el estado
+          />
+        </div>
         {error && <p className={styles.error}>{error}</p>}
         <button type="submit" className={styles.submitButton}>
           Añadir Producto
@@ -83,6 +93,7 @@ export default function AddProduct() {
     </div>
   );
 }
+
 
 import jwt from 'jsonwebtoken';
 
