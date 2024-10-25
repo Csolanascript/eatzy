@@ -7,6 +7,16 @@
   align-items: center;
 }
 
+.videoBackground {
+  position: fixed; /* Cambia a fixed para que siga el scroll */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+}
+
 /* Contenedor del logo */
 .imageContainer {
   width: auto;
@@ -154,16 +164,6 @@
 .error {
   color: red;
   margin-bottom: 20px;
-}
-
-.videoBackground {
-  position: fixed; /* Cambia a fixed para que siga el scroll */
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  z-index: -1;
 }
 
 .container, .imageContainer {

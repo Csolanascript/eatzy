@@ -120,13 +120,13 @@ export default function Signup() {
   };
 
   return (
-    <div className={styles.signupContainer}>
-              {/* Video de fondo */}
+    <div className={styles.pagina}>
+      {/* Video de fondo */}
       <video autoPlay loop muted className={styles.videoBackground}>
-        <source src="/video/fondo.mp4" type="video/mp4" />
+      <source src="/video/fondo.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-
+      <div className={styles.signupContainer}>
       <div className={styles.encabezado}>
         <div className={styles.item1}>
           <h1>Registro de Usuario</h1>
@@ -248,6 +248,7 @@ export default function Signup() {
               Volver al Login
         </button>
       </form>
+    </div>
     </div>
   );
 }

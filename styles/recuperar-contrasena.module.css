@@ -1,19 +1,19 @@
 /* /styles/RecuperarContrasena.module.css */
-
 .pagina {
+  min-height: 100vh; /* Al menos la altura de la ventana */
+  width: 100%; /* Asegura que ocupe todo el ancho */
   display: flex;
-  height: 100vh;
+  flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  flex-direction: column;
 }
 
 .videoBackground {
-  position: absolute;
+  position: fixed; /* Cambia a fixed para que siga el scroll */
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   object-fit: cover;
   z-index: -1;
 }
