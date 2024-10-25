@@ -1,4 +1,4 @@
-import prisma from '../../prisma'; // Asegúrate de que el path sea correcto
+import prisma from '../../prisma'; // Make sure this path is correct
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
@@ -9,7 +9,6 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Falta el nombre o la localidad del restaurante' });
       }
 
-      // Consultar los productos asociados a un restaurante por nombre y localidad
       const productos = await prisma.productos.findMany({
         where: {
           nombre: nombreRestaurante,
@@ -19,7 +18,7 @@ export default async function handler(req, res) {
           nombre_producto: true,
           descripcion: true,
           precio: true,
-          foto: true,  // Incluir la ruta de la imagen en los resultados
+          foto: true,
         },
       });
 
@@ -32,9 +31,34 @@ export default async function handler(req, res) {
       console.error('Error al obtener los productos:', error);
       return res.status(500).json({ error: 'Error al obtener los productos' });
     }
-  } else {
-    // Si no es una solicitud GET, devolver un error 405
-    res.setHeader('Allow', ['GET']);
+  } 
+  
+  else if (req.method === 'DELETE') {
+    try {
+      const { nombre_producto } = req.query; // Get `nombre_producto` from query
+
+      if (!nombre_producto) {
+        return res.status(400).json({ error: 'Falta el nombre del producto a eliminar' });
+      }
+
+      // Delete the product with the specified name
+      const deleteResult = await prisma.productos.deleteMany({
+        where: { nombre_producto: nombre_producto },
+      });
+
+      if (deleteResult.count === 0) {
+        return res.status(404).json({ error: 'Producto no encontrado' });
+      }
+
+      return res.status(200).json({ message: 'Producto eliminado correctamente' });
+    } catch (error) {
+      console.error('Error al eliminar el producto:', error);
+      return res.status(500).json({ error: 'Error al eliminar el producto' });
+    }
+  } 
+  
+  else {
+    res.setHeader('Allow', ['GET', 'DELETE']);
     res.status(405).end(`Método ${req.method} no permitido`);
   }
 }

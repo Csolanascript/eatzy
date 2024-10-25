@@ -4,7 +4,7 @@ import styles from '../../../../styles/Carta.module.css';
 
 export default function Carta() {
   const router = useRouter();
-  const { nombre, localidad } = router.query; // Capturar tanto el nombre como la localidad desde la URL
+  const { nombre, localidad } = router.query;
   const [productos, setProductos] = useState([]);
   const [error, setError] = useState(null);
 
@@ -30,9 +30,29 @@ export default function Carta() {
   }, [nombre, localidad]);
 
   const handleAddProductClick = () => {
-    // Redirige a la página para añadir productos
     router.push(`/restaurante/${encodeURIComponent(nombre)}/${encodeURIComponent(localidad)}/add-product`);
   };
+
+  const handleDeleteProductClick = async (nombreProducto) => {
+    try {
+      const response = await fetch(`/api/productos?nombre_producto=${encodeURIComponent(nombreProducto)}`, {
+        method: 'DELETE',
+      });
+      
+      if (!response.ok) {
+        const data = await response.json();
+        setError(data.error || 'Error al eliminar el producto');
+        return;
+      }
+  
+      // Filter out the deleted product
+      setProductos((prevProductos) => prevProductos.filter((producto) => producto.nombre_producto !== nombreProducto));
+    } catch (error) {
+      setError('Error de red al intentar eliminar el producto');
+    }
+  };
+  
+
 
   return (
     <div className={styles.container}>
@@ -47,11 +67,17 @@ export default function Carta() {
                 <img
                   src={producto.foto}
                   alt={producto.nombre_producto}
-                  className={styles.productImage} // Añadir la clase de estilos para la imagen
+                  className={styles.productImage}
                 />
               )}
               <span className={styles.productName}>{producto.nombre_producto}</span>
               <span className={styles.productPrice}>{producto.precio}€</span>
+              <button
+                className={styles.deleteButton}
+                onClick={() => handleDeleteProductClick(producto.nombre_producto)}
+              >
+                Eliminar Producto
+              </button>
             </li>
           ))}
         </ul>
@@ -59,52 +85,9 @@ export default function Carta() {
         <p className={styles.noProducts}>No hay productos registrados para este restaurante.</p>
       )}
 
-      {/* Botón para añadir un nuevo producto */}
       <button className={styles.addButton} onClick={handleAddProductClick}>
         Añadir Producto
       </button>
     </div>
   );
 }
-
-
-import jwt from 'jsonwebtoken';
-
-export async function getServerSideProps(context) {
-  const { req } = context;
-  const token = req.cookies['auth-token'];
-
-  // Si no hay token, redirigir al login
-  if (!token) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
-  }
-
-  try {
-    // Verificar el token y obtener el correo del propietario
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const propietarioCorreo = decoded.correo;  // Extraer el correo del token
-    const nombreUsuario = decoded.nombreUsuario || null;  // Extraer el nombre de usuario del token
-    const localidad = decoded.localidad || null;  // Extraer la localidad del token
-
-    // Retornar los props a la página con la información necesaria
-    return {
-      props: { propietarioCorreo, nombreUsuario, localidad },
-    };
-  } catch (error) {
-    console.error('Error al verificar el token:', error);
-
-    // Si ocurre algún error al verificar el token, redirigir al login
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
-  }
-}
-
