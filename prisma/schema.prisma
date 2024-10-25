@@ -36,11 +36,13 @@ model productos {
   precio          Decimal?    @db.Decimal(10, 2)
   nombre          String      @db.VarChar(100)
   localidad       String      @db.VarChar(100)
+  foto            String?     @db.VarChar(255) // Nueva columna para la ruta de la foto
   contiene        contiene[]  // Relación uno a muchos con `contiene`
   restaurante     restaurante @relation(fields: [nombre, localidad], references: [nombre, localidad], onDelete: NoAction, onUpdate: NoAction)
 
   @@id([nombre, localidad, nombre_producto]) // Clave primaria compuesta
 }
+
 
 model restaurante {
   nombre      String      @db.VarChar(100)
