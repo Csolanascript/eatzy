@@ -64,7 +64,7 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
         <nav>
           <ul>
             <li onClick={() => handleNavigation('/cliente/gestion-pedidos')}>Mis pedidos</li>
-            <li onClick={() => handleNavigation('/configuracion')}>Configuración</li>
+            <li onClick={() => handleNavigation('/cliente/configuracion')}>Configuración</li>
             <li onClick={handleLogout}>Cerrar Sesión</li>
           </ul>
         </nav>

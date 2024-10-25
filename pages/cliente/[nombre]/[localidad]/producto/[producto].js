@@ -7,7 +7,6 @@ export default function InfoProducto() {
   const router = useRouter();
   const { nombre, localidad, producto } = router.query;
 
-  // Colocar un log dentro del return para ver si el componente se renderiza
   console.log('Renderizando InfoProducto:', nombre, localidad, producto);
 
   const [productoInfo, setProductoInfo] = useState(null);
@@ -51,8 +50,11 @@ export default function InfoProducto() {
         <div className={styles.productDetails}>
           <h1 className={styles.productName}>{productoInfo.nombre_producto}</h1>
           <p className={styles.productDescription}>{productoInfo.descripcion}</p>
-          <button className={styles.addButton}>
-            Añadir producto al carrito
+          <button
+            className={styles.backButton}
+            onClick={() => router.push(`/cliente/${encodeURIComponent(nombre)}/${encodeURIComponent(localidad)}/carta-cliente`)}
+          >
+            Volver a la carta
           </button>
         </div>
       ) : (

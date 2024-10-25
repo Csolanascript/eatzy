@@ -1,0 +1,23 @@
+/* styles/ConfiguracionCliente.module.css */
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .clientInfo {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  
+  .clientInfo p {
+    margin: 10px 0;
+  }
+  
+  .clientInfo strong {
+    display: inline-block;
+    width: 120px;
+  }
+  

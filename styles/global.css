@@ -8,3 +8,19 @@ body {
     color: #333;
   }
   
+
+/*Boton god*/
+.Button {
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 30px;
+  transition: background-color 0.3s ease;
+}
