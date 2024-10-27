@@ -1,6 +1,7 @@
 // pages/api/usuario/crear.js
 
 import { PrismaClient } from '@prisma/client';
+import crypto from 'crypto';
 
 const prisma = new PrismaClient();
 
@@ -34,16 +35,19 @@ export default async function handler(req, res) {
     }
 
     try {
-      // Intentar crear un nuevo usuario
+      // Hashear la contraseña utilizando SHA-256
+      const hashedPassword = crypto.createHash('sha256').update(contrasena).digest('hex');
+
+      // Crear un nuevo usuario con la contraseña hasheada
       const usuario = await prisma.usuario.create({
         data: {
           correo,
           nombre_usuario,
-          contrasena,
+          contrasena: hashedPassword, // Guardar la contraseña hasheada
           localidad,
           calle,
           piso,
-          numero: parseInt(numero), // Asegúrate de convertirlo a entero
+          numero: parseInt(numero), // Convertir a entero
           codigo_postal,
           tipo,
         },

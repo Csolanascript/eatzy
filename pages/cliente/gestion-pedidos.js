@@ -10,7 +10,7 @@ export default function GestionPedidos({ propietarioCorreo }) {
     const fetchPedidos = async () => {
       try {
         // Llamar a la API y pasar el correo del cliente autenticado
-        const response = await fetch(`/api/pedidos?correo=${encodeURIComponent(propietarioCorreo)}`);
+        const response = await fetch(`/api/pedidos?correo=${(propietarioCorreo)}`);
         const data = await response.json();
 
         if (response.ok) {

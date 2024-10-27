@@ -3,6 +3,7 @@
 import { PrismaClient } from '@prisma/client';
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 
 const prisma = new PrismaClient();
 
@@ -30,6 +31,7 @@ export default async function handler(req, res) {
         process.env.JWT_RESET_SECRET, // Clave secreta diferente para reset
         { expiresIn: '1h' } // Token válido por 1 hora
       );
+      console.log(resetToken)
       console.log('JWT_RESET_SECRET:', process.env.JWT_RESET_SECRET);
 
       

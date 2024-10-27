@@ -2,6 +2,7 @@
 
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 
 const prisma = new PrismaClient();
 
@@ -27,11 +28,14 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: 'Usuario no encontrado.' });
       }
 
-      // Actualizar la contraseña del usuario
+      // Hashear la nueva contraseña
+      const hashedPassword = crypto.createHash('sha256').update(contrasena).digest('hex');
+
+      // Actualizar la contraseña del usuario en el campo 'contrasena'
       await prisma.usuario.update({
         where: { correo },
         data: {
-          contrasena, // Almacenar la contraseña en texto plano (No recomendado)
+          contrasena: hashedPassword, // Actualizamos el campo 'contrasena' con el hash
         },
       });
 
