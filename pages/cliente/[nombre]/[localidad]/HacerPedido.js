@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 
 export default function HacerPedido({ propietarioCorreo }) {  // Recibe el correo como prop
   const router = useRouter();
-  const { nombre, localidad } = router.query; 
+  const { nombre, localidad } = router.query; // Obtener nombre y localidad desde la URL
   const [productos, setProductos] = useState([]);
   const [pedido, setPedido] = useState({});
   const [error, setError] = useState(null);
@@ -151,11 +151,9 @@ export async function getServerSideProps(context) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const propietarioCorreo = decoded.correo;
-    const nombreUsuario = decoded.nombreUsuario || null; // Extraer el nombre de usuario del token
-    const localidad = decoded.localidad || null; // Extraer localidad
 
     return {
-      props: { propietarioCorreo, nombreUsuario, localidad }, // Pasar el correo como prop
+      props: { propietarioCorreo }, // Pasar el correo como prop
     };
   } catch (error) {
     console.error('Error al verificar el token:', error);
