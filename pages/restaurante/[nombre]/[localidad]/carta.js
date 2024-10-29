@@ -51,8 +51,6 @@ export default function Carta() {
       setError('Error de red al intentar eliminar el producto');
     }
   };
-  
-
 
   return (
     <div className={styles.container}>
@@ -71,7 +69,7 @@ export default function Carta() {
                 />
               )}
               <span className={styles.productName}>{producto.nombre_producto}</span>
-              <span className={styles.productPrice}>{producto.precio}€</span>
+              <span className={styles.productPrice}>{producto.precio}&euro;</span>
               <button
                 className={styles.deleteButton}
                 onClick={() => handleDeleteProductClick(producto.nombre_producto)}
@@ -86,7 +84,7 @@ export default function Carta() {
       )}
 
       <button className={styles.addButton} onClick={handleAddProductClick}>
-        Añadir Producto
+        A&ntilde;adir Producto
       </button>
     </div>
   );
