@@ -11,7 +11,6 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
   const [searchTerm, setSearchTerm] = useState('');
   const [mensajeInicial, setMensajeInicial] = useState("Recordando los mejores platos de tu zona");
   const router = useRouter();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const fetchRestaurantes = async () => {
@@ -55,83 +54,54 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
     setSearchTerm(event.target.value);
   };
 
-  const handleLogout = () => {
-    document.cookie = 'auth-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    router.push('/login');
-  };
-
   const handleRestaurantClick = (restauranteNombre, restauranteLocalidad) => {
     router.push(`/cliente/${encodeURIComponent(restauranteNombre)}/${encodeURIComponent(localidad)}/carta-cliente`);
   };
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  const handleNavigation = (path) => {
-    router.push(path);
-    setIsSidebarOpen(false);
-  };
-
   return (
-    <div className={styles.pagina}>
-      <header className={styles.cabecera}>
-        <div className={styles.inCabecera}>
-          <div className={styles.banner}>
-            <Image src="/images/imagen.png" alt="Banner de Eatzy" width={200} height={150} />
-          </div>
-          <div className={styles.userBox}>
-            <span className={styles.userName}>{nombreUsuario}</span>
-            <FaUserCircle className={styles.userIcon} />
-          </div>
-        </div>
-      </header>
-
-      <button className={styles.toggleButton} onClick={toggleSidebar}>☰</button>
-      <aside className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ''}`}>
-        <nav>
-          <ul>
-            <li onClick={() => handleNavigation('/cliente/gestion-pedidos')}>Mis pedidos</li>
-            <li onClick={() => handleNavigation('/cliente/configuracion')}>Configuración</li>
-            <li onClick={handleLogout}>Cerrar Sesión</li>
-          </ul>
-        </nav>
-      </aside>
-
-      <div className={styles.mainContent}>
-        <div className={styles.content}>
-          <h2 className={styles.restaurantsTitle}>Restaurantes en {localidad}</h2>
-          
-          <input 
-            type="text" 
-            value={searchTerm}
-            onChange={handleSearch}
-            placeholder="Busca un restaurante..."
-            className={styles.searchBar}
-          />
-          
-          {mensajeInicial ? (
-            <p className={styles.welcomeMessage}>{mensajeInicial}</p>
-          ) : restaurantes.length > 0 ? (
-            <ul className={styles.restaurantsList}>
-              {restaurantes.map((restaurante) => (
-                <li key={`${restaurante.nombre}-${restaurante.localidad}`} className={styles.restaurantItem}>
-                  <span onClick={() => handleRestaurantClick(restaurante.nombre, restaurante.localidad)}>
-                    {restaurante.nombre} - {restaurante.localidad}
-                  </span>
-                  <FaClipboardList 
-                    className={styles.iconCarta} 
+      <div className="pagina">
+        <div className={styles.mainContent}>
+          <div className={styles.content}>
+            <h2 className={styles.restaurantsTitle}>Restaurantes en {localidad}</h2>
+            <input 
+              type="text" 
+              value={searchTerm}
+              onChange={handleSearch}
+              placeholder="Busca un restaurante..."
+              className={styles.searchBar}
+            />
+            
+            {mensajeInicial ? (
+              <p className={styles.welcomeMessage}>{mensajeInicial}</p>
+            ) : restaurantes.length > 0 ? (
+              <div className={styles.restaurantsList}>
+                {restaurantes.map((restaurante) => (
+                  <div 
+                    key={`${restaurante.nombre}-${restaurante.localidad}`} 
+                    className={styles.restaurantCard}
                     onClick={() => handleRestaurantClick(restaurante.nombre, restaurante.localidad)}
-                  />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className={styles.noRestaurants}>No hay restaurantes cerca de tí en los que chuparte los dedos</p>
-          )}
+                  >
+                    <div className={styles.restaurantImage}>
+                      <Image 
+                        src={restaurante.foto} 
+                        alt={restaurante.nombre} 
+                        width={200}
+                        height={200}/>
+                    </div>
+                    <div className={styles.restaurantInfo}>
+                      <h3 className={styles.restaurantName}>{restaurante.nombre}</h3>
+                      <p className={styles.restaurantCategoria}>{restaurante.categoria}</p>
+                      <p className={styles.restaurantNumTelefono}>{restaurante.numtelefono}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className={styles.noRestaurants}>No hay restaurantes cerca de ti en los que chuparte los dedos</p>
+            )}
+          </div>
         </div>
       </div>
-    </div>
   );
 }
 

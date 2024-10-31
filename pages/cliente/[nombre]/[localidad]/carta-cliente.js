@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../../../../styles/Carta.module.css';
-
+import Image from 'next/image';
 import Link from 'next/link';
 import jwt from 'jsonwebtoken';
+import Header from '/components/Header'; // Importa el nuevo componente
 
-export default function Carta() {
+export default function Carta({nombreUsuario}) {
   const router = useRouter();
   const { nombre, localidad } = router.query;
   const [productos, setProductos] = useState([]);
@@ -37,42 +38,47 @@ export default function Carta() {
   };
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Carta de {nombre} en {localidad}</h1>
-      {error ? (
-        <p className={styles.error}>{error}</p>
-      ) : productos.length > 0 ? (
-        <ul className={styles.productList}>
-          {productos.map((producto) => (
-            <li key={producto.nombre_producto} className={styles.productItem}>
-              {producto.foto && (
-                <img
-                  src={producto.foto}
-                  alt={producto.nombre_producto}
-                  className={styles.productImage} // Añadir la clase de estilos para la imagen
-                />
-              )}
-              <span className={styles.productName}>{producto.nombre_producto}</span>
-              <span className={styles.productPrice}>{producto.precio}€</span>
-              <button 
-                className={styles.viewButton} 
-                onClick={() => handleProductClick(producto.nombre_producto)}
-              >
-                Ver descripción
-              </button>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className={styles.noProducts}>No hay productos registrados para este restaurante.</p>
-      )}
+    <div className="pagina">
+      <Header nombreUsuario={nombreUsuario} /> {/* Reemplaza la cabecera por el componente Header */}
+      <div className={styles.container}>
+        <h1 className={styles.title}>{nombre} -- {localidad}</h1>
+        {error ? (
+          <p className={styles.error}>{error}</p>
+        ) : productos.length > 0 ? (
+          <ul className={styles.productList}>
+            {productos.map((producto) => (
+              <li key={producto.nombre_producto} className={styles.productItem}>
+                {producto.foto && (
+                  <Image
+                    src={producto.foto}
+                    alt={producto.nombre_producto}
+                    className={styles.productImage} // Añadir la clase de estilos para la imagen
+                    width={300}
+                    height={300}
+                  />
+                )}
+                <span className={styles.productName}>{producto.nombre_producto}</span>
+                <span className={styles.productPrice}>{producto.precio}€</span>
+                <button 
+                  className={styles.viewButton} 
+                  onClick={() => handleProductClick(producto.nombre_producto)}
+                >
+                  Ver descripción
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className={styles.noProducts}>No hay productos registrados para este restaurante.</p>
+        )}
 
-      {/* Enlace a la pantalla de hacer pedido */}
-      <Link href={`/cliente/${encodeURIComponent(nombre)}/${encodeURIComponent(localidad)}/HacerPedido`}>
-        <button className={styles.orderButton}>
-          Hacer pedido
-        </button>
-      </Link>
+        {/* Enlace a la pantalla de hacer pedido */}
+        <Link href={`/cliente/${encodeURIComponent(nombre)}/${encodeURIComponent(localidad)}/HacerPedido`}>
+          <button className={styles.orderButton}>
+            Hacer pedido
+          </button>
+        </Link>
+      </div>
     </div>
   );
 }

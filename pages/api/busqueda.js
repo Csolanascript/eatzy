@@ -28,6 +28,7 @@ export default async function handler(req, res) {
         numtelefono: true,
         categoria: true,
         correo: true,
+        foto: true,
       },
     });
 

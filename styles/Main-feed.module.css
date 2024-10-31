@@ -1,108 +1,8 @@
-.pagina {
-  background-color: blanchedalmond;
-  height: 100vh;
-}
-/* Cabecera */
-.cabecera {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #000;
-  z-index: 1000;
-}
-
-/* Contenedor de los elementos en la cabecera */
-.inCabecera {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: space-between;
-}
-
-/* Banner centrado */
-.banner {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-}
-
-/* UserBox en la esquina superior derecha */
-.userBox {
-  display: flex;
-  align-items: center;
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background-color: #fff;
-  color: #333;
-  padding: 8px 12px;
-  border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 1001; /* Más alto que el sidebar para que se mantenga visible */
-}
-
-.userName {
-  margin-right: 8px;
-  font-size: 16px;
-}
-
-.userIcon {
-  font-size: 24px;
-}
-
-/* Botón para togglear el menú lateral */
-.toggleButton {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  background-color: #fff;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  z-index: 1002; /* Más alto que el sidebar para estar siempre encima */
-}
-
-/* Menú lateral */
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: -250px; /* Oculto por defecto */
-  width: 250px;
-  height: 100%;
-  background-color: #333;
-  color: #fff;
-  transition: left 0.3s ease;
-  z-index: 1000; /* Por debajo del toggleButton */
-  padding-top: 60px; /* Espacio para el botón */
-}
-
-.sidebar.open {
-  left: 0; /* Visible cuando está abierto */
-}
-
-.sidebar nav ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.sidebar nav ul li {
-  padding: 15px 20px;
-  cursor: pointer;
-}
-
-.sidebar nav ul li:hover {
-  background-color: #444;
-}
 
 /* Contenido principal */
 .mainContent {
   flex: 1;
   padding: 20px;
-  padding-top: 175px; /* Ajusta esto según la altura de tu cabecera */
   transition: all 0.3s ease;
 }
 
@@ -125,6 +25,14 @@
 .content {
   max-width: 800px;
   margin: 0 auto;
+}
+
+.searchBar {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 20px;
 }
 
 .restaurantsTitle {
@@ -167,6 +75,58 @@
   margin: 20px auto;
   max-width: 80%; /* Limita el ancho para no ocupar toda la pantalla */
 }
+
+/* Estilos para el contenedor de cada restaurante */
+.restaurantCard {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.restaurantCard:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Imagen del restaurante */
+.restaurantImage {
+  flex: 0 0 150px; /* Tamaño fijo para la imagen */
+  height: 120px;
+  margin-right: 20px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.restaurantImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Información del restaurante (nombre y descripción) */
+.restaurantInfo {
+  flex: 1;
+}
+
+.restaurantName {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+.restaurantNumTelefono {
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
+
 
 @keyframes fadeIn {
   0%, 100% {

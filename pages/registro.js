@@ -53,7 +53,7 @@ export default function Signup() {
       return 'Correo electrónico no es válido';
     }
 
-    // Validación de contraseña (ejemplo: mínimo 6 caracteres)
+    // Validación de contraseña
     if (contrasena.length < 2) {
       return 'La contraseña debe tener al menos 2 caracteres';
     }

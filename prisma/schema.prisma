@@ -50,6 +50,7 @@ model restaurante {
   categoria   String?     @db.VarChar(50)
   correo      String?     @db.VarChar(100)
   localidad   String      @db.VarChar(100)
+  foto        String?     @db.VarChar(255) // Nueva columna para la ruta de la foto
   productos   productos[] // Relación uno a muchos con `productos`
   usuario     usuario?    @relation(fields: [correo], references: [correo], onDelete: NoAction, onUpdate: NoAction)
 

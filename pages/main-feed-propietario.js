@@ -8,7 +8,6 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
   const [restaurantes, setRestaurantes] = useState([]);
   const [error, setError] = useState(null);
   const router = useRouter();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const fetchRestaurantes = async () => {
@@ -46,55 +45,14 @@ export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }
     router.push(`/restaurante/${encodeURIComponent(restauranteNombre)}/${encodeURIComponent(restauranteLocalidad)}/gestionPedidosRestaurante`);
   };
 
-  const handleLogout = () => {
-    // Elimina la cookie del token de autenticación
-    document.cookie = 'auth-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    router.push('/login'); // Redirige al usuario al login
-  };
-  
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  const handleNavigation = (path) => {
-    router.push(path);
-    setIsSidebarOpen(false); // Cerrar el menú al navegar
-  };
-
   const handleAddRestaurant = () => {
     router.push('/add-restaurant'); // Redirige a la página de agregar restaurante
   };
 
   return (
     <div className={styles.container}>
-      {/* Botón para togglear el menú lateral */}
-      <button className={styles.toggleButton} onClick={toggleSidebar}>
-        ☰
-      </button>
-
-      {/* Menú lateral */}
-      <aside className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ''}`}>
-        <nav>
-          <ul>
-            {/* Asegúrate de tener un restaurante seleccionado antes de hacer clic en Mis pedidos */}
-            {restaurantes.length > 0 && (
-              <li onClick={() => handlePedidosClick(restaurantes[0].nombre, restaurantes[0].localidad)}>Mis pedidos</li>
-            )}
-            <li onClick={() => handleNavigation('/configuracion')}>Configuración</li>
-            <li onClick={handleLogout}>Cerrar Sesión</li>
-          </ul>
-        </nav>
-      </aside>
-
-      {/* Recuadrito de Usuario */}
-      <div className={styles.userBox}>
-        <FaUserCircle className={styles.userIcon} />
-        <span className={styles.userName}>{nombreUsuario}</span>
-      </div>
-
       <div className={styles.mainContent}>
         <div className={styles.header}>
-          <h1 className={styles.title}>EATZY</h1>
           <p className={styles.subtitle}>¡Has iniciado sesión correctamente!</p>
         </div>
 
