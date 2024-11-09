@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import { FaUserCircle, FaClipboardList } from 'react-icons/fa';
 import Image from 'next/image';
 
-export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad }) {
+export default function MainFeed({ propietarioCorreo, nombreUsuario, localidad, tipo}) {
   const [restaurantes, setRestaurantes] = useState([]);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -124,12 +124,19 @@ export async function getServerSideProps(context) {
     const propietarioCorreo = decoded.correo;
     const nombreUsuario = decoded.nombreUsuario || null;
     const localidad = decoded.localidad || null;
+    const tipoUsuario = decoded.tipo || null;
+
+    if (!tipoUsuario) {
+      console.error('Error: tipoUsuario no está definido en el token.');
+    } else {
+      console.log('Tipo de usuario:', tipoUsuario);
+    }
 
     if (!localidad) {
       console.warn('Localidad no definida para el usuario:', propietarioCorreo);
     }
     return {
-      props: { propietarioCorreo, nombreUsuario, localidad },
+      props: { propietarioCorreo, nombreUsuario, localidad, tipoUsuario },
     };
   } catch (error) {
     console.error('Error al verificar el token:', error);

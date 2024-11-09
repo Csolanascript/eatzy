@@ -151,9 +151,10 @@ export async function getServerSideProps(context) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const propietarioCorreo = decoded.correo;
+    const tipoUsuario = decoded.tipo || null;
 
     return {
-      props: { propietarioCorreo }, // Pasar el correo como prop
+      props: { propietarioCorreo, tipoUsuario }, // Pasar el correo como prop
     };
   } catch (error) {
     console.error('Error al verificar el token:', error);

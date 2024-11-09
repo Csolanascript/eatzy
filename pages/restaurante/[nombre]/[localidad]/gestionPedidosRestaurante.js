@@ -129,10 +129,11 @@ export async function getServerSideProps(context) {
     const propietarioCorreo = decoded.correo;  // Extraer el correo del token
     const nombreUsuario = decoded.nombreUsuario || null;  // Extraer el nombre de usuario del token
     const localidad = decoded.localidad || null;  // Extraer la localidad del token
+    const tipoUsuario = decoded.tipo || null;
 
     // Retornar los props a la página con la información necesaria
     return {
-      props: { propietarioCorreo, nombreUsuario, localidad },
+      props: { propietarioCorreo, nombreUsuario, localidad, tipoUsuario },
     };
   } catch (error) {
     console.error('Error al verificar el token:', error);

@@ -134,10 +134,10 @@ export async function getServerSideProps(context) {
     // Verificar el token y obtener el correo del propietario
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const propietarioCorreo = decoded.correo; // Extraer el correo del token
-
+    const tipoUsuario = decoded.tipo || null;
     // Retornar los props a la página
     return {
-      props: { propietarioCorreo },
+      props: { propietarioCorreo, tipoUsuario },
     };
   } catch (error) {
     console.error('Error al verificar el token:', error);

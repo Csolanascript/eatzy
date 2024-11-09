@@ -1,18 +1,18 @@
-// pages/_app.js
 import '../styles/global.css';
 import Header from '../components/Header';
-import Sidebar from '../components/Sidebar';
-import { useState } from 'react';
+import SidebarCliente from '../components/SidebarCliente';
+import SidebarProp from '../components/SidebarProp';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const router = useRouter();
 
-  // Define una lista de rutas donde no quieres mostrar el Header y Sidebar
-  const rutasExcluidas = ['/login', '/registro', '/recuperar-contrasena']; // Agrega aquí las rutas a excluir
+  // Define rutas donde no quieres mostrar Header y Sidebar
+  const rutasExcluidas = ['/login', '/registro', '/recuperar-contrasena'];
 
-  // Función para alternar la visibilidad del sidebar
+  // Función para alternar el sidebar
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -20,12 +20,19 @@ function MyApp({ Component, pageProps }) {
   // Verifica si la ruta actual está en la lista de rutas excluidas
   const mostrarHeaderSidebar = !rutasExcluidas.includes(router.pathname);
 
+  useEffect(() => {
+    console.log('Tipo de usuario en _app.js:', pageProps.tipoUsuario);
+  }, [pageProps.tipoUsuario]);
+
+  // Determina qué Sidebar usar según el tipo de usuario
+  const SidebarComponent = pageProps.tipoUsuario === 'Cliente' ? SidebarCliente : SidebarProp;
+
   return (
     <>
       {mostrarHeaderSidebar && (
         <>
           <Header nombreUsuario={pageProps.nombreUsuario} />
-          <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+          <SidebarComponent isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
         </>
       )}
       <Component {...pageProps} />
